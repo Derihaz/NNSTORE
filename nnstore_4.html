@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NNSTORE</title>
+<style>
+:root{
+  --bg:#111;--bg2:#181818;--bg3:#1f1f1f;--bg4:#262626;--bg5:#2e2e2e;
+  --border:#1e1e1e;--border2:#282828;
+  --text:#f2f2f2;--text2:#999;--text3:#555;--text4:#2e2e2e;
+  --accent:#007aff;--accent2:#0056d6;--accentbg:rgba(0,122,255,.1);
+  --green:#30d158;--greenbg:rgba(48,209,88,.1);
+  --gold:#ffd60a;--goldbg:rgba(255,214,10,.08);
+  --glass:rgba(255,255,255,.04);--glassborder:rgba(255,255,255,.06);
+  --r:18px;--r2:24px;--r3:50px;
+}
+.light{
+  --bg:#f7f7f8;--bg2:#ffffff;--bg3:#f2f2f4;--bg4:#eaeaec;--bg5:#e0e0e2;
+  --border:#ebebed;--border2:#dedee0;
+  --text:#0a0a0a;--text2:#5a5a6a;--text3:#9a9aaa;--text4:#d0d0d8;
+  --glass:rgba(0,0,0,.04);--glassborder:rgba(0,0,0,.07);
+  --green:#1a9e42;--greenbg:rgba(26,158,66,.09);
+  --gold:#b8860b;--goldbg:rgba(184,134,11,.09);
+  --accentbg:rgba(0,122,255,.07);
+}
+.light nav{box-shadow:0 1px 0 #ebebed;background:rgba(250,250,252,.9);}
+.light .card{box-shadow:0 2px 12px rgba(0,0,0,.06);border-color:#ebebed;}
+.light .card:hover{box-shadow:0 8px 32px rgba(0,0,0,.1),0 0 0 1.5px rgba(0,122,255,.2);}
+.light .sheet{box-shadow:0 20px 60px rgba(0,0,0,.15);}
+.light .hero{background:radial-gradient(ellipse 70% 50% at 50% -10%,rgba(0,122,255,.05) 0%,transparent 70%);}
+.light .btn-s{border-color:#d8d8da;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.light .cst{background:#f7f7f8;}
+.light .c-stats{background:#ebebed;}
+.light .shst{background:#f7f7f8;}
+.light .fp-inner{box-shadow:0 4px 20px rgba(0,0,0,.07);}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh;transition:background .25s,color .25s;}
+
+/* ── NAV ── */
+nav{
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  padding:0 32px;height:58px;
+  background:rgba(17,17,17,.85);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--glassborder);position:sticky;top:0;z-index:100;
+}
+.light nav{background:rgba(245,245,245,.85);}
+.nav-logo{font-size:21px;font-weight:900;letter-spacing:-.6px;cursor:pointer;user-select:none;text-align:center;}
+.nav-logo .nn{color:var(--accent);}.nav-logo .st{color:var(--text);}
+.nav-l{display:flex;align-items:center;gap:4px;}
+.nav-r{display:flex;align-items:center;gap:8px;justify-content:flex-end;}
+.nav-link{padding:7px 13px;border-radius:var(--r3);font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .18s;border:none;background:none;font-family:inherit;}
+.nav-link:hover{background:var(--glass);color:var(--text);}
+.nav-lang{background:var(--bg3);border:1px solid var(--border2);color:var(--text2);border-radius:var(--r3);padding:6px 12px;font-size:12px;cursor:pointer;font-family:inherit;-webkit-appearance:none;outline:none;transition:all .18s;}
+.nav-lang option{background:var(--bg2);}
+.nav-theme{width:36px;height:36px;border-radius:var(--r3);background:var(--bg3);border:1px solid var(--border2);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;transition:all .18s;}
+.nav-cta{padding:8px 18px;border-radius:var(--r3);background:var(--accent);color:#fff;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 4px 14px rgba(0,122,255,.28);transition:all .18s;}
+.nav-cta:hover{background:var(--accent2);transform:translateY(-1px);}
+
+/* ── HERO ── */
+.hero{
+  text-align:center;padding:72px 32px 52px;
+  background:radial-gradient(ellipse 70% 50% at 50% -10%,rgba(0,122,255,.07) 0%,transparent 70%);
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--goldbg);border:1px solid rgba(255,214,10,.15);
+  border-radius:var(--r3);padding:5px 14px;font-size:11px;font-weight:700;
+  color:var(--gold);letter-spacing:.03em;margin-bottom:20px;
+}
+.hero h1{font-size:clamp(26px,5vw,52px);font-weight:800;letter-spacing:-2px;line-height:1.08;margin-bottom:14px;}
+.hero h1 em{font-style:normal;color:var(--accent);}
+.hero-sub{font-size:15px;color:var(--text2);max-width:440px;margin:0 auto 32px;line-height:1.6;letter-spacing:-.1px;}
+.hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.btn-p{padding:13px 28px;border-radius:var(--r3);background:var(--accent);color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 6px 20px rgba(0,122,255,.35);transition:all .2s;}
+.btn-p:hover{background:var(--accent2);transform:translateY(-2px);}
+.btn-s{padding:13px 28px;border-radius:var(--r3);background:var(--bg3);color:var(--text);border:1px solid var(--border2);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;}
+.btn-s:hover{background:var(--bg4);}
+.hero-stats{display:flex;justify-content:center;gap:36px;margin-top:44px;flex-wrap:wrap;}
+.hs{text-align:center;}
+.hs-v{font-size:22px;font-weight:800;letter-spacing:-.5px;}
+.hs-l{font-size:11px;color:var(--text3);margin-top:3px;}
+
+/* ── TOOLBAR ── */
+.toolbar{
+  display:flex;align-items:center;gap:10px;
+  padding:20px 32px 0;flex-wrap:wrap;
+}
+.search-box{flex:1;min-width:180px;position:relative;}
+.search-box svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none;}
+.search-inp{
+  width:100%;height:42px;padding:0 16px 0 40px;
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:var(--r3);font-size:14px;font-family:inherit;color:var(--text);
+  transition:all .2s;
+}
+.search-inp::placeholder{color:var(--text3);}
+.search-inp:focus{outline:none;border-color:rgba(0,122,255,.4);background:var(--bg2);}
+
+/* filter trigger button */
+.filter-btn{
+  height:42px;display:flex;align-items:center;gap:7px;
+  padding:0 16px;border-radius:var(--r3);
+  background:var(--bg3);border:1px solid var(--border2);
+  font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;
+  transition:all .2s;white-space:nowrap;font-family:inherit;
+}
+.filter-btn:hover{border-color:rgba(0,122,255,.4);color:var(--text);}
+.filter-btn.active{background:var(--accentbg);border-color:rgba(0,122,255,.4);color:var(--accent);}
+.filter-btn .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:none;}
+.filter-btn.has-filters .dot{display:block;}
+
+.sort-wrap{
+  height:42px;display:flex;align-items:center;gap:7px;
+  padding:0 14px;border-radius:var(--r3);
+  background:var(--bg3);border:1px solid var(--border2);
+}
+.sort-wrap label{font-size:11px;font-weight:600;color:var(--text3);white-space:nowrap;}
+.sort-wrap select{background:none;border:none;color:var(--text);font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;-webkit-appearance:none;outline:none;}
+.sort-wrap select option{background:var(--bg2);}
+
+/* ── FILTER PANEL (collapsible) ── */
+.filter-panel{
+  overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1),padding .3s;
+  padding:0 32px;
+}
+.filter-panel.open{max-height:500px;padding:16px 32px 0;}
+.fp-inner{
+  background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r2);
+  padding:20px 24px;display:flex;flex-wrap:wrap;gap:20px 32px;
+}
+.fp-group{min-width:180px;}
+.fp-group-title{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;}
+
+/* country checkboxes */
+.ctr-list{display:flex;flex-direction:column;gap:4px;}
+.ctr-item{display:flex;align-items:center;gap:8px;padding:5px 0;cursor:pointer;}
+.ctr-item:hover .ctr-chk{border-color:var(--accent);}
+.ctr-flag{font-size:16px;width:22px;}
+.ctr-name{font-size:12px;font-weight:500;flex:1;}
+.ctr-chk{width:17px;height:17px;border-radius:5px;border:1.5px solid var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
+.ctr-item.sel .ctr-chk{background:var(--accent);border-color:var(--accent);}
+.ctr-item.sel .ctr-chk::after{content:'✓';font-size:9px;color:#fff;font-weight:800;}
+.ctr-item.dis{opacity:.3;pointer-events:none;}
+
+/* range slider */
+.sl-row{display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--text3);margin-bottom:6px;}
+input[type=range]{width:100%;-webkit-appearance:none;height:3px;border-radius:3px;background:var(--bg5);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid var(--bg2);box-shadow:0 2px 8px rgba(0,122,255,.35);}
+
+/* toggles */
+.tgl-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0;cursor:pointer;gap:10px;}
+.tgl-lbl{font-size:12px;font-weight:500;color:var(--text2);}
+.tgl{width:34px;height:20px;border-radius:10px;background:var(--bg5);position:relative;transition:background .2s;flex-shrink:0;}
+.tgl::after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:2px;left:2px;transition:left .2s;}
+.tgl.on{background:var(--accent);}
+.tgl.on::after{left:16px;}
+
+.cat-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.cat-chip{padding:5px 12px;border-radius:var(--r3);font-size:11px;font-weight:700;border:1px solid var(--border2);background:var(--bg3);color:var(--text3);cursor:pointer;transition:all .15s;}
+.cat-chip.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+.cat-chip:hover:not(.on){border-color:var(--text3);color:var(--text);}
+
+.fp-actions{display:flex;align-items:center;justify-content:space-between;width:100%;padding-top:4px;}
+.fp-reset{font-size:12px;color:var(--text3);cursor:pointer;background:none;border:none;font-family:inherit;}
+.fp-reset:hover{color:var(--accent);}
+.fp-apply{padding:8px 20px;border-radius:var(--r3);background:var(--accent);color:#fff;border:none;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .2s;}
+.fp-apply:hover{opacity:.82;}
+
+/* ── FILTERS ROW (category chips) ── */
+.chips-row{display:flex;gap:7px;padding:14px 32px;overflow-x:auto;flex-wrap:wrap;scrollbar-width:none;}
+.chips-row::-webkit-scrollbar{display:none;}
+.chip{
+  height:30px;padding:0 14px;border-radius:var(--r3);
+  font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;
+  background:var(--bg3);border:1px solid var(--border2);color:var(--text3);transition:all .2s;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.chip.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+.chip:hover:not(.on){border-color:var(--text3);color:var(--text);}
+
+/* ── GRID ── */
+.grid-wrap{padding:4px 32px 32px;}
+.grid-meta{font-size:12px;color:var(--text3);margin-bottom:14px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+
+/* ── CARD ── */
+.card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);
+  overflow:hidden;cursor:pointer;transition:all .25s;display:flex;flex-direction:column;
+  position:relative;
+}
+.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.02) 0%,transparent 60%);pointer-events:none;border-radius:var(--r2);}
+.card:hover{border-color:rgba(0,122,255,.35);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.5);}
+.card:hover .card-cta{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+.card-head{padding:18px 18px 12px;display:flex;align-items:center;gap:12px;}
+.c-av{width:48px;height:48px;border-radius:14px;overflow:hidden;flex-shrink:0;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.25);}
+.c-av img{width:100%;height:100%;object-fit:cover;display:block;}
+.c-name{font-size:14px;font-weight:700;color:var(--text);letter-spacing:-.2px;margin-bottom:3px;}
+.c-cat{display:inline-block;font-size:10px;font-weight:700;color:var(--accent);background:var(--accentbg);padding:2px 8px;border-radius:var(--r3);text-transform:uppercase;letter-spacing:.05em;}
+
+.c-badges{display:flex;gap:5px;padding:0 18px 12px;flex-wrap:wrap;}
+.badge{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:7px;font-size:10px;font-weight:700;}
+.b-green{background:var(--greenbg);color:var(--green);}
+.b-blue{background:var(--accentbg);color:var(--accent);}
+.b-gold{background:var(--goldbg);color:var(--gold);}
+
+.c-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin:0 18px 12px;border-radius:12px;overflow:hidden;}
+.cst{background:var(--bg3);padding:9px 11px;}
+.cst-v{font-size:14px;font-weight:800;letter-spacing:-.2px;}
+.cst-l{font-size:9px;color:var(--text3);margin-top:1px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
+
+.c-countries{display:flex;align-items:center;gap:5px;padding:0 18px 10px;flex-wrap:wrap;}
+.ctry{font-size:14px;}
+.ctry-n{font-size:11px;color:var(--text3);}
+.ctry-dot{color:var(--border2);font-size:9px;}
+
+.c-thumbs{display:flex;gap:4px;padding:0 18px 12px;}
+.c-thumbs img{flex:1;height:48px;object-fit:cover;border-radius:9px;}
+
+.card-foot{padding:0 18px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;}
+.c-price{font-size:22px;font-weight:800;letter-spacing:-.5px;}
+.c-price span{font-size:13px;font-weight:400;color:var(--text3);}
+.card-cta{padding:9px 18px;border-radius:var(--r3);background:var(--bg4);color:var(--text2);border:1px solid var(--border2);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;}
+
+.grid-empty{grid-column:1/-1;padding:80px;text-align:center;color:var(--text3);font-size:14px;}
+
+/* ── HELP BLOCK ── */
+.help-block{
+  margin:8px 32px 48px;
+  background:linear-gradient(135deg,rgba(0,122,255,.1) 0%,rgba(0,86,214,.05) 100%);
+  border:1px solid rgba(0,122,255,.15);border-radius:var(--r2);
+  padding:36px 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
+}
+.hb-text h2{font-size:20px;font-weight:800;letter-spacing:-.4px;margin-bottom:6px;}
+.hb-text p{font-size:13px;color:var(--text2);line-height:1.6;max-width:380px;}
+.hb-btn{padding:12px 26px;border-radius:var(--r3);background:var(--accent);color:#fff;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;box-shadow:0 4px 14px rgba(0,122,255,.3);transition:all .2s;flex-shrink:0;}
+.hb-btn:hover{background:var(--accent2);transform:translateY(-1px);}
+
+/* ── DETAIL SHEET ── */
+.backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);z-index:200;overflow-y:auto;padding:28px 16px;}
+.backdrop.open{display:block;}
+.sheet{
+  background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r2);
+  max-width:680px;width:100%;margin:auto;overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,0,.6);
+}
+.sh-hd{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border);}
+.sh-av{width:52px;height:52px;border-radius:14px;overflow:hidden;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;}
+.sh-av img{width:100%;height:100%;object-fit:cover;display:block;}
+.sh-name{font-size:17px;font-weight:800;letter-spacing:-.4px;}
+.sh-cat{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;background:var(--accentbg);display:inline-block;padding:2px 9px;border-radius:var(--r3);}
+.xbtn{width:30px;height:30px;border-radius:50%;background:var(--bg4);border:1px solid var(--border2);color:var(--text2);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.xbtn:hover{background:var(--bg5);color:var(--text);}
+.sh-body{padding:22px 24px 28px;}
+.sh-pr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px;}
+.sh-price{font-size:30px;font-weight:800;letter-spacing:-.8px;}
+.sh-cta{padding:11px 24px;border-radius:var(--r3);background:var(--accent);color:#fff;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 4px 14px rgba(0,122,255,.3);transition:all .2s;}
+.sh-cta:hover{background:var(--accent2);}
+.sh-badges{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;}
+.sh-stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
+.shst{flex:1;min-width:80px;background:var(--bg3);border-radius:var(--r);padding:12px 13px;text-align:center;}
+.shst-v{font-size:17px;font-weight:800;letter-spacing:-.3px;}
+.shst-l{font-size:10px;color:var(--text3);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
+.sh-lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+.sh-desc{font-size:14px;color:var(--text2);line-height:1.75;background:var(--bg3);border-radius:var(--r);padding:14px 15px;margin-bottom:18px;white-space:pre-wrap;}
+.yt-pill{display:inline-flex;align-items:center;gap:7px;background:var(--accentbg);border:1px solid rgba(0,122,255,.18);border-radius:var(--r3);padding:8px 13px;margin-bottom:18px;text-decoration:none;transition:all .2s;}
+.yt-pill:hover{border-color:var(--accent);}
+.yt-pill span{font-size:12px;color:var(--accent);font-weight:600;word-break:break-all;}
+.gal-main{width:100%;max-height:320px;object-fit:contain;border-radius:var(--r2);cursor:zoom-in;background:var(--bg3);display:block;}
+.gal-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px;}
+.gal-row img{width:64px;height:48px;object-fit:cover;border-radius:9px;cursor:pointer;border:2px solid transparent;opacity:.55;transition:all .2s;}
+.gal-row img.on{border-color:var(--accent);opacity:1;}
+.gal-row img:hover{opacity:1;}
+.no-scr{font-size:13px;color:var(--text3);padding:14px;background:var(--bg3);border-radius:var(--r);text-align:center;}
+
+/* ── ADMIN ── */
+.adm-wrap{display:none;min-height:100vh;}
+.adm-wrap.open{display:block;}
+.adm-nav{display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:58px;background:rgba(17,17,17,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--glassborder);position:sticky;top:0;z-index:50;}
+.light .adm-nav{background:rgba(245,245,245,.9);}
+.adm-tabs{display:flex;gap:3px;background:var(--bg3);border-radius:11px;padding:3px;}
+.atab{padding:6px 16px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;color:var(--text3);border:none;background:none;font-family:inherit;transition:all .2s;}
+.atab.on{background:var(--bg4);color:var(--text);}
+.adm-back{font-size:13px;color:var(--text3);background:none;border:none;font-family:inherit;cursor:pointer;}
+.adm-back:hover{color:var(--text2);}
+.adm-body{max-width:680px;margin:0 auto;padding:32px 20px;}
+
+.login-card{max-width:360px;margin:80px auto;text-align:center;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r2);padding:40px;}
+.login-icon{font-size:38px;margin-bottom:14px;}
+.login-card h2{font-size:20px;font-weight:800;margin-bottom:6px;}
+.login-card p{font-size:13px;color:var(--text3);margin-bottom:24px;}
+.linp{width:100%;height:44px;border:1px solid var(--border2);border-radius:var(--r);padding:0 16px;font-size:15px;font-family:inherit;background:var(--bg3);color:var(--text);margin-bottom:12px;text-align:center;letter-spacing:4px;}
+.linp:focus{outline:none;border-color:rgba(0,122,255,.5);}
+.lbtn{width:100%;height:44px;border-radius:var(--r3);border:none;background:var(--accent);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .2s;}
+.lbtn:hover{opacity:.82;}
+.lerr{font-size:12px;color:#ff3b30;margin-top:10px;min-height:18px;}
+.lback{font-size:12px;color:var(--text3);cursor:pointer;margin-top:14px;display:inline-block;}
+.lback:hover{color:var(--text2);}
+
+.fc{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r2);overflow:hidden;}
+.fsec{padding:22px 24px;border-bottom:1px solid var(--border);}
+.fsec:last-child{border-bottom:none;}
+.fsec-t{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px;}
+.fg{margin-bottom:13px;}.fg:last-child{margin-bottom:0;}
+.fg label{font-size:12px;font-weight:600;color:var(--text2);display:block;margin-bottom:5px;}
+.fg input,.fg select,.fg textarea{width:100%;height:40px;padding:0 13px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);font-size:13px;font-family:inherit;color:var(--text);transition:border-color .2s;}
+.fg textarea{height:auto;min-height:80px;padding:10px 13px;resize:vertical;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:rgba(0,122,255,.5);}
+.fg select option{background:var(--bg2);}
+.fg-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.fg-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+
+.ytbox{display:flex;align-items:center;gap:12px;margin-top:10px;padding:13px 14px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);min-height:62px;transition:border-color .3s;}
+.ytbox.loaded{border-color:rgba(0,122,255,.4);}
+.ytav{width:38px;height:38px;border-radius:10px;flex-shrink:0;overflow:hidden;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:16px;}
+.ytav img{width:100%;height:100%;object-fit:cover;display:block;}
+.ytnm{font-size:13px;font-weight:700;color:var(--text3);}
+.ytnm.ok{color:var(--text);}
+.ytsb{font-size:11px;color:var(--accent);font-weight:700;margin-top:2px;}
+.ytst{font-size:11px;color:var(--text3);margin-top:2px;}
+.spin{display:inline-block;animation:sp .7s linear infinite;}
+@keyframes sp{to{transform:rotate(360deg);}}
+
+.cdisp{display:flex;align-items:center;gap:7px;min-height:40px;padding:8px 13px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);cursor:pointer;flex-wrap:wrap;transition:border-color .2s;}
+.cdisp:hover{border-color:rgba(0,122,255,.4);}
+.ctag{background:var(--bg4);border-radius:7px;padding:3px 9px;font-size:12px;font-weight:600;color:var(--text2);}
+.cph{font-size:13px;color:var(--text3);}
+
+.upzone{border:2px dashed var(--border2);border-radius:var(--r2);padding:22px;text-align:center;cursor:pointer;transition:all .2s;}
+.upzone:hover{border-color:rgba(0,122,255,.4);background:var(--accentbg);}
+.scrg{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;}
+.scrg img{width:66px;height:50px;object-fit:cover;border-radius:9px;cursor:pointer;border:1px solid var(--border);}
+.pubrow{padding:20px 24px;}
+.pubbtn{width:100%;height:44px;border-radius:var(--r3);border:none;background:var(--accent);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .2s;}
+.pubbtn:hover{opacity:.82;}
+
+.citem{display:flex;align-items:flex-start;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border);transition:background .15s;}
+.citem:last-child{border-bottom:none;}
+.citem:hover{background:var(--bg3);}
+.citem-av{width:40px;height:40px;border-radius:11px;flex-shrink:0;overflow:hidden;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;}
+.citem-av img{width:100%;height:100%;object-fit:cover;display:block;}
+.citem-info{flex:1;min-width:0;}
+.citem-name{font-size:13px;font-weight:700;margin-bottom:3px;}
+.citem-meta{font-size:11px;color:var(--text3);}
+.delbtn{font-size:11px;color:#ff3b30;background:rgba(255,59,48,.1);border:1px solid rgba(255,59,48,.2);border-radius:8px;padding:5px 11px;cursor:pointer;font-family:inherit;font-weight:600;flex-shrink:0;transition:all .2s;}
+.delbtn:hover{background:rgba(255,59,48,.2);}
+.empty-adm{padding:60px;text-align:center;color:var(--text3);font-size:13px;}
+
+/* COUNTRY PICKER MODAL */
+.cpbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(12px);z-index:500;align-items:center;justify-content:center;padding:20px;}
+.cpbg.open{display:flex;}
+.cpick{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r2);width:100%;max-width:390px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.6);}
+.cp-hd{display:flex;align-items:flex-start;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--border);}
+.cp-hd h3{font-size:15px;font-weight:700;}
+.cp-sub{font-size:11px;color:var(--text3);margin-top:2px;}
+.cp-srch{padding:10px 14px;border-bottom:1px solid var(--border);}
+.cp-srch input{width:100%;height:36px;padding:0 12px;background:var(--bg3);border:1px solid var(--border2);border-radius:9px;font-size:13px;font-family:inherit;color:var(--text);}
+.cp-srch input:focus{outline:none;border-color:rgba(0,122,255,.5);}
+.cp-srch input::placeholder{color:var(--text3);}
+.cp-list{max-height:280px;overflow-y:auto;padding:8px;}
+.cp-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;cursor:pointer;transition:background .15s;}
+.cp-item:hover{background:var(--bg3);}
+.cp-flag{font-size:18px;width:26px;text-align:center;}
+.cp-name{font-size:13px;font-weight:500;flex:1;}
+.cp-chk{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;}
+.cp-item.sel .cp-chk{background:var(--accent);border-color:var(--accent);}
+.cp-item.sel .cp-chk::after{content:'✓';font-size:10px;color:#fff;font-weight:800;}
+.cp-item.dis{opacity:.3;pointer-events:none;}
+.cp-foot{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--border);}
+.cp-lbl{font-size:12px;color:var(--text3);}
+.cp-ok{padding:7px 18px;border-radius:9px;border:none;background:var(--accent);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
+
+/* FULLSCREEN */
+.fs{display:none;position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:9999;align-items:center;justify-content:center;}
+.fs.open{display:flex;}
+.fs img{max-width:96vw;max-height:94vh;object-fit:contain;border-radius:10px;}
+.fsx{position:fixed;top:16px;right:20px;background:rgba(255,255,255,.1);border:none;color:#fff;border-radius:50%;width:38px;height:38px;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.fsp,.fsn{position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border:none;color:#fff;border-radius:50%;width:46px;height:46px;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.fsp{left:16px;}.fsn{right:16px;}
+.fscnt{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);font-size:12px;color:rgba(255,255,255,.4);background:rgba(255,255,255,.07);padding:5px 14px;border-radius:20px;}
+
+footer{padding:22px 32px;border-top:1px solid var(--border);text-align:center;font-size:11px;color:var(--text3);}
+.fsec2{cursor:default;user-select:none;}
+#mainApp{display:block;}
+
+/* ── REVIEWS ── */
+.rev-section{margin-top:20px;}
+.rev-summary{display:flex;align-items:center;gap:18px;background:var(--bg3);border-radius:var(--r);padding:16px 18px;margin-bottom:16px;}
+.rev-big-score{font-size:40px;font-weight:800;letter-spacing:-2px;line-height:1;}
+.rev-stars-big{display:flex;gap:3px;margin:4px 0;}
+.rev-stars-big .star{font-size:20px;color:var(--bg5);cursor:default;}
+.rev-stars-big .star.filled{color:var(--gold);}
+.rev-count{font-size:12px;color:var(--text3);margin-top:2px;}
+.rev-bars{flex:1;}
+.rev-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.rev-bar-lbl{font-size:11px;color:var(--text3);width:10px;text-align:right;flex-shrink:0;}
+.rev-bar-track{flex:1;height:5px;background:var(--bg5);border-radius:3px;overflow:hidden;}
+.rev-bar-fill{height:100%;background:var(--gold);border-radius:3px;transition:width .4s;}
+
+.rev-form{background:var(--bg3);border-radius:var(--r);padding:16px 18px;margin-bottom:16px;}
+.rev-form-title{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;}
+.star-picker{display:flex;gap:6px;margin-bottom:12px;}
+.star-picker .sp{font-size:26px;cursor:pointer;color:var(--bg5);transition:color .15s,transform .15s;}
+.star-picker .sp:hover,.star-picker .sp.on{color:var(--gold);}
+.star-picker .sp:hover{transform:scale(1.15);}
+.rev-inp{width:100%;height:36px;padding:0 12px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);font-size:13px;font-family:inherit;color:var(--text);margin-bottom:8px;}
+.rev-inp:focus{outline:none;border-color:rgba(0,122,255,.4);}
+.rev-ta{width:100%;min-height:72px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);font-size:13px;font-family:inherit;color:var(--text);resize:vertical;margin-bottom:10px;}
+.rev-ta::placeholder,.rev-inp::placeholder{color:var(--text3);}
+.rev-ta:focus{outline:none;border-color:rgba(0,122,255,.4);}
+.rev-submit{padding:8px 20px;border-radius:var(--r3);background:var(--accent);color:#fff;border:none;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .2s;}
+.rev-submit:hover{opacity:.82;}
+.rev-submit:disabled{opacity:.4;cursor:default;}
+
+.rev-list{display:flex;flex-direction:column;gap:10px;}
+.rev-item{background:var(--bg3);border-radius:var(--r);padding:13px 15px;}
+.rev-item-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.rev-item-name{font-size:13px;font-weight:700;}
+.rev-item-stars{display:flex;gap:2px;}
+.rev-item-stars .star{font-size:13px;color:var(--bg5);}
+.rev-item-stars .star.filled{color:var(--gold);}
+.rev-item-date{font-size:10px;color:var(--text3);margin-top:1px;}
+.rev-item-text{font-size:13px;color:var(--text2);line-height:1.6;margin-top:6px;}
+.rev-empty{font-size:13px;color:var(--text3);text-align:center;padding:20px;background:var(--bg3);border-radius:var(--r);}
+.rev-card-stars{display:flex;align-items:center;gap:4px;padding:0 18px 10px;}
+.rev-card-stars .star{font-size:12px;color:var(--bg5);}
+.rev-card-stars .star.filled{color:var(--gold);}
+.rev-card-score{font-size:12px;font-weight:700;color:var(--text2);margin-left:2px;}
+
+/* ── TG REVIEWS PAGE ── */
+.tgrev-page{display:none;padding:0 0 60px;}
+.tgrev-page.open{display:block;}
+.tgrev-hero{text-align:center;padding:56px 32px 40px;background:radial-gradient(ellipse 70% 50% at 50% -10%,rgba(0,122,255,.07) 0%,transparent 70%);}
+.tgrev-hero h1{font-size:clamp(22px,4vw,40px);font-weight:800;letter-spacing:-1.5px;margin-bottom:10px;}
+.tgrev-hero p{font-size:14px;color:var(--text2);max-width:380px;margin:0 auto 28px;line-height:1.6;}
+.tgrev-stats{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;margin-bottom:8px;}
+.tgrev-stat{text-align:center;}
+.tgrev-stat-v{font-size:26px;font-weight:800;letter-spacing:-.5px;}
+.tgrev-stat-l{font-size:11px;color:var(--text3);margin-top:3px;}
+
+.tgrev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;padding:0 32px;}
+.tgrev-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:20px;position:relative;transition:all .2s;}
+.tgrev-card:hover{border-color:rgba(0,122,255,.25);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.35);}
+.tgrev-from{font-size:11px;font-weight:600;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.tgrev-from svg{flex-shrink:0;opacity:.85;}
+.tgrev-from a{color:var(--accent);text-decoration:none;font-weight:700;}
+.tgrev-from a:hover{text-decoration:underline;}
+.tgrev-name{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px;}
+.tgrev-text{font-size:13px;color:var(--text2);line-height:1.75;}
+.tgrev-date{font-size:11px;color:var(--text3);margin-top:12px;}
+.tgrev-verified{display:inline-flex;align-items:center;gap:4px;background:var(--greenbg);color:var(--green);font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;margin-top:10px;}
+.tgrev-back{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--r3);background:var(--bg3);border:1px solid var(--border2);font-size:13px;color:var(--text2);cursor:pointer;font-family:inherit;margin:24px 32px 0;transition:all .2s;}
+.tgrev-back:hover{background:var(--bg4);color:var(--text);}
+@media(max-width:680px){.tgrev-grid{padding:0 16px;grid-template-columns:1fr;}.tgrev-hero{padding:40px 16px 30px;}.tgrev-back{margin-left:16px;}}
+
+@media(max-width:680px){
+  nav{padding:0 16px;grid-template-columns:auto 1fr auto;}
+  .nav-l{display:none;}
+  .hero{padding:48px 16px 36px;}
+  .toolbar,.chips-row,.grid-wrap,.help-block{padding-left:16px;padding-right:16px;}
+  .grid{grid-template-columns:1fr;}
+  .help-block{margin-left:16px;margin-right:16px;}
+  .fp-inner{gap:14px 20px;}
+  .fg-2,.fg-3{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div id="mainApp">
+<!-- NAV -->
+<nav>
+  <div class="nav-l">
+    <button class="nav-link" onclick="showTgReviews()">💬 Отзывы</button>
+  </div>
+  <div class="nav-logo" onclick="scrollToTop()"><span class="nn">NN</span><span class="st">STORE</span></div>
+  <div class="nav-r">
+    <select class="nav-lang" onchange="setLang(this.value)">
+      <option value="ru">🇷🇺 RU</option><option value="en">🇬🇧 EN</option>
+      <option value="uk">🇺🇦 UK</option><option value="kg">🇰🇬 KG</option>
+      <option value="uz">🇺🇿 UZ</option><option value="kz">🇰🇿 KZ</option>
+    </select>
+    <button class="nav-theme" onclick="toggleTheme()" id="themeBtn">🌙</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="heroTop">
+  <div class="hero-eyebrow">⚡ <span data-t="eyebrow">Быстрая сделка · Гарантия</span></div>
+  <h1><span data-t="h1a">Готовые YouTube каналы</span><br><em data-t="h1b">с монетизацией</em></h1>
+  <p class="hero-sub" data-t="hsub">Покупайте каналы с реальной аудиторией, подключённой монетизацией и чистой историей.</p>
+  <div class="hero-btns">
+    <button class="btn-p" onclick="scrollToGrid()" data-t="btn1">Смотреть каналы</button>
+    <button class="btn-s" onclick="goTg()" data-t="btn2">Подобрать канал</button>
+  </div>
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-v" id="hsCount">—</div><div class="hs-l" data-t="hs1">Каналов</div></div>
+    <div class="hs"><div class="hs-v">24ч</div><div class="hs-l" data-t="hs2">Передача</div></div>
+    <div class="hs"><div class="hs-v">100%</div><div class="hs-l" data-t="hs3">Сделок</div></div>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar" id="gridAnchor">
+  <div class="search-box">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input class="search-inp" id="srchInp" data-ph="srch" placeholder="Поиск…" oninput="renderCards()"/>
+  </div>
+  <button class="filter-btn" id="filterBtn" onclick="toggleFilters()">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+    <span data-t="filter_btn">Фильтры</span>
+    <span class="dot"></span>
+  </button>
+  <div class="sort-wrap">
+    <label data-t="sl">Сортировка</label>
+    <select id="sortSel" onchange="renderCards()">
+      <option value="def" data-t="s0">По умолч.</option>
+      <option value="pa" data-t="s1">Цена ↑</option>
+      <option value="pd" data-t="s2">Цена ↓</option>
+      <option value="sd" data-t="s3">Подписчики ↓</option>
+      <option value="id" data-t="s4">Доход ↓</option>
+    </select>
+  </div>
+</div>
+
+<!-- FILTER PANEL -->
+<div class="filter-panel" id="filterPanel">
+  <div class="fp-inner">
+    <!-- Countries -->
+    <div class="fp-group">
+      <div class="fp-group-title" data-t="fg_countries">Страна аудитории</div>
+      <div class="ctr-list" id="ctrList"></div>
+    </div>
+    <!-- Price -->
+    <div class="fp-group">
+      <div class="fp-group-title" data-t="fg_price">Цена (USD)</div>
+      <div class="sl-row"><span data-t="pr_from">от 0</span><span id="prMaxLbl">до любой</span></div>
+      <input type="range" id="prSlider" min="0" max="1000" value="1000" oninput="onPrSlide(this.value)"/>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <input style="flex:1;height:34px;padding:0 10px;background:var(--bg3);border:1px solid var(--border2);border-radius:9px;font-size:12px;font-family:inherit;color:var(--text);text-align:center" type="number" id="subMinInp" placeholder="Подп. от" oninput="renderCards()"/>
+        <input style="flex:1;height:34px;padding:0 10px;background:var(--bg3);border:1px solid var(--border2);border-radius:9px;font-size:12px;font-family:inherit;color:var(--text);text-align:center" type="number" id="subMaxInp" placeholder="до" oninput="renderCards()"/>
+      </div>
+    </div>
+    <!-- Params -->
+    <div class="fp-group">
+      <div class="fp-group-title" data-t="fg_params">Параметры</div>
+      <div class="tgl-row" onclick="togF('monetized')"><span class="tgl-lbl" data-t="f_mon">Монетизация</span><div class="tgl" id="tgl_monetized"></div></div>
+      <div class="tgl-row" onclick="togF('nostrikes')"><span class="tgl-lbl" data-t="f_str">Без страйков</span><div class="tgl" id="tgl_nostrikes"></div></div>
+      <div class="tgl-row" onclick="togF('active')"><span class="tgl-lbl" data-t="f_act">Активный</span><div class="tgl" id="tgl_active"></div></div>
+    </div>
+    <!-- Category -->
+    <div class="fp-group">
+      <div class="fp-group-title" data-t="fg_cat">Тематика</div>
+      <div class="cat-chips" id="catChips"></div>
+    </div>
+    <!-- Actions -->
+    <div class="fp-actions">
+      <button class="fp-reset" onclick="resetAllFilters()" data-t="f_reset">Сбросить всё</button>
+      <button class="fp-apply" onclick="applyAndClose()" data-t="f_apply">Применить</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHIPS ROW -->
+<div class="chips-row" id="chipsRow"></div>
+
+<!-- GRID -->
+<div class="grid-wrap">
+  <div class="grid-meta" id="gridMeta"></div>
+  <div class="grid" id="cardsGrid"></div>
+</div>
+
+<!-- HELP -->
+<div class="help-block">
+  <div class="hb-text">
+    <h2 data-t="help_h">Не знаете что выбрать?</h2>
+    <p data-t="help_p">Опишите цели — подберём канал под бюджет и нишу. Бесплатно.</p>
+  </div>
+  <button class="hb-btn" onclick="goTg()" data-t="help_btn">Подобрать канал →</button>
+</div>
+
+<footer><span class="fsec2" onclick="sClick()">© 2025 NNSTORE</span></footer>
+</div>
+
+<!-- TG REVIEWS PAGE -->
+<div class="tgrev-page" id="tgRevPage">
+  <button class="tgrev-back" onclick="hideTgReviews()">← Назад к каталогу</button>
+  <div class="tgrev-hero">
+    <div class="hero-eyebrow" style="margin-bottom:16px">💬 Реальные отзывы из Telegram</div>
+    <h1>Нам доверяют покупатели</h1>
+    <p>Все отзывы — реальные сообщения покупателей, переслані напрямую из нашего канала</p>
+    <div class="tgrev-stats">
+      <div class="tgrev-stat"><div class="tgrev-stat-v">50+</div><div class="tgrev-stat-l">Довольных клиентов</div></div>
+      <div class="tgrev-stat"><div class="tgrev-stat-v">100%</div><div class="tgrev-stat-l">Успешных сделок</div></div>
+      <div class="tgrev-stat"><div class="tgrev-stat-v">4.9</div><div class="tgrev-stat-l">Средняя оценка</div></div>
+    </div>
+  </div>
+
+  <div class="tgrev-grid">
+
+    <div class="tgrev-card">
+      <div class="tgrev-from"><svg width="16" height="16" viewBox="0 0 24 24" fill="#007aff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.72 8.09c-.13.58-.47.72-.95.45l-2.62-1.93-1.27 1.22c-.14.14-.26.26-.53.26l.19-2.67 4.84-4.37c.21-.19-.05-.29-.32-.1L7.9 14.49l-2.57-.8c-.56-.17-.57-.56.12-.83l10.02-3.86c.47-.17.88.11.17.8z"/></svg><a href="https://t.me/reviews_shit" target="_blank" rel="noopener">@reviews_shit</a></div>
+      <div class="tgrev-name">Dmitry</div>
+      <div class="tgrev-text">Благодарю за канал бро! Все четко и вовремя, со всем помог. Советую продавца!</div>
+      <div class="tgrev-verified">✓ Подтверждённая оплата 160 USDT</div>
+      <div class="tgrev-date">16 декабря 2025</div>
+    </div>
+
+    <div class="tgrev-card">
+      <div class="tgrev-from"><svg width="16" height="16" viewBox="0 0 24 24" fill="#007aff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.72 8.09c-.13.58-.47.72-.95.45l-2.62-1.93-1.27 1.22c-.14.14-.26.26-.53.26l.19-2.67 4.84-4.37c.21-.19-.05-.29-.32-.1L7.9 14.49l-2.57-.8c-.56-.17-.57-.56.12-.83l10.02-3.86c.47-.17.88.11.17.8z"/></svg><a href="https://t.me/reviews_shit" target="_blank" rel="noopener">@reviews_shit</a></div>
+      <div class="tgrev-name">Artem Tikhonov</div>
+      <div class="tgrev-text">Спасибо большое за канал! Все прошло на высшем уровне, на все свои вопросы я получал развернутый ответ, однозначно рекомендую и обращусь повторно 🤝</div>
+      <div class="tgrev-date">16 декабря 2025</div>
+    </div>
+
+    <div class="tgrev-card">
+      <div class="tgrev-from"><svg width="16" height="16" viewBox="0 0 24 24" fill="#007aff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.72 8.09c-.13.58-.47.72-.95.45l-2.62-1.93-1.27 1.22c-.14.14-.26.26-.53.26l.19-2.67 4.84-4.37c.21-.19-.05-.29-.32-.1L7.9 14.49l-2.57-.8c-.56-.17-.57-.56.12-.83l10.02-3.86c.47-.17.88.11.17.8z"/></svg><a href="https://t.me/reviews_shit" target="_blank" rel="noopener">@reviews_shit</a></div>
+      <div class="tgrev-name">Саида</div>
+      <div class="tgrev-text">Канал передали, сделка прошла удачно, без гаранта, все объяснили подробно, буду обращаться еще!</div>
+      <div class="tgrev-date">08 января</div>
+    </div>
+
+    <div class="tgrev-card">
+      <div class="tgrev-from"><svg width="16" height="16" viewBox="0 0 24 24" fill="#007aff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.72 8.09c-.13.58-.47.72-.95.45l-2.62-1.93-1.27 1.22c-.14.14-.26.26-.53.26l.19-2.67 4.84-4.37c.21-.19-.05-.29-.32-.1L7.9 14.49l-2.57-.8c-.56-.17-.57-.56.12-.83l10.02-3.86c.47-.17.88.11.17.8z"/></svg><a href="https://t.me/reviews_shit" target="_blank" rel="noopener">@reviews_shit</a></div>
+      <div class="tgrev-name">Abdulhamid</div>
+      <div class="tgrev-text">Хочу искренне поблагодарить Дмитрия за честную и прозрачную сделку по покупке канала. Всё прошло напрямую, без посредников и лишних сложностей. Оплата была переведена сразу, после чего Дмитрий полностью выполнил все договорённости. Через неделю я был успешно назначен основным владельцем канала через бренд-аккаунт. Отдельно хочу отметить доверие и спокойную коммуникацию — это редкость и большая ценность. Рекомендую Дмитрия как надёжного и достойного человека для подобных сделок. 😊</div>
+      <div class="tgrev-date">12 января</div>
+    </div>
+
+    <div class="tgrev-card">
+      <div class="tgrev-from"><svg width="16" height="16" viewBox="0 0 24 24" fill="#007aff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.72 8.09c-.13.58-.47.72-.95.45l-2.62-1.93-1.27 1.22c-.14.14-.26.26-.53.26l.19-2.67 4.84-4.37c.21-.19-.05-.29-.32-.1L7.9 14.49l-2.57-.8c-.56-.17-.57-.56.12-.83l10.02-3.86c.47-.17.88.11.17.8z"/></svg><a href="https://t.me/reviews_shit" target="_blank" rel="noopener">@reviews_shit</a></div>
+      <div class="tgrev-name">разница то какая</div>
+      <div class="tgrev-text">Спасибо за проделанную работу, качественно и понятно, для меня как для новичка, все объяснили понятно и доходчиво, советую данный канал ТГ для покупки, а остальным желаю успехов 🙌</div>
+      <div class="tgrev-date">05 февраля</div>
+    </div>
+
+    <div class="tgrev-card">
+      <div class="tgrev-from"><svg width="16" height="16" viewBox="0 0 24 24" fill="#007aff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.72 8.09c-.13.58-.47.72-.95.45l-2.62-1.93-1.27 1.22c-.14.14-.26.26-.53.26l.19-2.67 4.84-4.37c.21-.19-.05-.29-.32-.1L7.9 14.49l-2.57-.8c-.56-.17-.57-.56.12-.83l10.02-3.86c.47-.17.88.11.17.8z"/></svg><a href="https://t.me/reviews_shit" target="_blank" rel="noopener">@reviews_shit</a></div>
+      <div class="tgrev-name">Кубатбек Орозов</div>
+      <div class="tgrev-text">Благодарю Дмитрия за успешную сделку, купили три канала 650 долларов, все каналы успешно перешли на наши аккаунты, спасибо еще раз @Seller_Shit желаю успехов.</div>
+      <div class="tgrev-verified">✓ Сделка на $650 — 3 канала</div>
+      <div class="tgrev-date">10 февраля</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="adm-wrap" id="admWrap">
+  <div id="admLogin">
+    <div class="login-card">
+      <div class="login-icon">🔒</div>
+      <h2>Вход</h2><p>Панель управления NNSTORE</p>
+      <input class="linp" type="password" id="apwd" placeholder="••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
+      <button class="lbtn" onclick="doLogin()">Войти</button>
+      <div class="lerr" id="aerr"></div>
+      <div><span class="lback" onclick="showMain()">← На сайт</span></div>
+    </div>
+  </div>
+  <div id="admDash" style="display:none">
+    <div class="adm-nav">
+      <button class="adm-back" onclick="showMain()">← Сайт</button>
+      <div class="adm-tabs">
+        <button class="atab on" id="tAdd" onclick="swTab('add')">Добавить</button>
+        <button class="atab" id="tList" onclick="swTab('list')">Каналы</button>
+      </div>
+      <button class="adm-back" onclick="doLogout()">Выйти</button>
+    </div>
+    <div class="adm-body" id="admBody"></div>
+  </div>
+</div>
+
+<!-- DETAIL -->
+<div class="backdrop" id="detBd" onclick="bdc(event,'detBd',closeDetail)">
+  <div class="sheet">
+    <div class="sh-hd">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="sh-av" id="shAv"></div>
+        <div><div id="shName" class="sh-name"></div><div id="shCat" class="sh-cat" style="margin-top:4px"></div></div>
+      </div>
+      <button class="xbtn" onclick="closeDetail()">✕</button>
+    </div>
+    <div class="sh-body">
+      <div class="sh-pr-row"><div id="shPrice" class="sh-price"></div><button class="sh-cta" onclick="goTg()" data-t="buy_cta">Купить канал →</button></div>
+      <div id="shBadges" class="sh-badges"></div>
+      <div id="shStats" class="sh-stats"></div>
+      <div class="sh-lbl" data-t="ldesc">Описание</div>
+      <div id="shDesc" class="sh-desc"></div>
+      <div id="shYt"></div>
+      <div id="shGal"></div>
+
+      <!-- REVIEWS -->
+      <div class="rev-section">
+        <div id="revSummary" class="rev-summary" style="display:none"></div>
+        <div id="revList" class="rev-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COUNTRY PICKER -->
+<div class="cpbg" id="cpbg" onclick="cpBgClose(event)">
+  <div class="cpick">
+    <div class="cp-hd"><div><h3 data-t="cp_t">Выберите страны</h3><div class="cp-sub" data-t="cp_s">До 3 стран</div></div><button class="xbtn" onclick="closeCp()">✕</button></div>
+    <div class="cp-srch"><input id="cpSrch" placeholder="Поиск…" oninput="renderCp()"/></div>
+    <div class="cp-list" id="cpList"></div>
+    <div class="cp-foot"><span class="cp-lbl" id="cpLbl">0/3</span><button class="cp-ok" onclick="confirmCp()" data-t="cp_ok">Готово</button></div>
+  </div>
+</div>
+
+<!-- FULLSCREEN -->
+<div class="fs" id="fs" onclick="fsBg(event)">
+  <button class="fsx" onclick="closeFs()">✕</button>
+  <button class="fsp" onclick="fsNav(-1)">‹</button>
+  <img id="fsImg" src="" alt=""/>
+  <button class="fsn" onclick="fsNav(1)">›</button>
+  <div class="fscnt" id="fsCnt"></div>
+</div>
+
+<script>
+// ── COUNTRIES ──────────────────────────────────────────────────────
+const CTRS=[
+  {f:'🇺🇸',n:{ru:'США',en:'USA',uk:'США',kg:'АКШ',uz:'AQSh',kz:'АҚШ'}},
+  {f:'🇩🇪',n:{ru:'Германия',en:'Germany',uk:'Німеччина',kg:'Германия',uz:'Germaniya',kz:'Германия'}},
+  {f:'🇺🇦',n:{ru:'Украина',en:'Ukraine',uk:'Україна',kg:'Украина',uz:'Ukraina',kz:'Украина'}},
+  {f:'🇬🇧',n:{ru:'Великобритания',en:'UK',uk:'Великобританія',kg:'Улуу Британия',uz:'Buyuk Britaniya',kz:'Ұлыбритания'}},
+  {f:'🇷🇺',n:{ru:'Россия',en:'Russia',uk:'Росія',kg:'Россия',uz:'Rossiya',kz:'Ресей'}},
+  {f:'🇵🇱',n:{ru:'Польша',en:'Poland',uk:'Польща',kg:'Польша',uz:'Polsha',kz:'Польша'}},
+  {f:'🇰🇿',n:{ru:'Казахстан',en:'Kazakhstan',uk:'Казахстан',kg:'Казакстан',uz:"Qozog'iston",kz:'Қазақстан'}},
+  {f:'🇰🇬',n:{ru:'Кыргызстан',en:'Kyrgyzstan',uk:'Киргизстан',kg:'Кыргызстан',uz:"Qirg'iziston",kz:'Қырғызстан'}},
+  {f:'🇺🇿',n:{ru:'Узбекистан',en:'Uzbekistan',uk:'Узбекистан',kg:'Өзбекстан',uz:"O'zbekiston",kz:'Өзбекстан'}},
+  {f:'🇧🇾',n:{ru:'Беларусь',en:'Belarus',uk:'Білорусь',kg:'Беларусь',uz:'Belarus',kz:'Беларусь'}},
+  {f:'🇫🇷',n:{ru:'Франция',en:'France',uk:'Франція',kg:'Франция',uz:'Fransiya',kz:'Франция'}},
+  {f:'🇹🇷',n:{ru:'Турция',en:'Turkey',uk:'Туреччина',kg:'Түркия',uz:'Turkiya',kz:'Түркия'}},
+  {f:'🇨🇦',n:{ru:'Канада',en:'Canada',uk:'Канада',kg:'Канада',uz:'Kanada',kz:'Канада'}},
+  {f:'🇦🇺',n:{ru:'Австралия',en:'Australia',uk:'Австралія',kg:'Австралия',uz:'Avstraliya',kz:'Австралия'}},
+  {f:'🇦🇪',n:{ru:'ОАЭ',en:'UAE',uk:'ОАЕ',kg:'БАЭ',uz:'BAA',kz:'БАӘ'}},
+  {f:'🇮🇳',n:{ru:'Индия',en:'India',uk:'Індія',kg:'Индия',uz:'Hindiston',kz:'Үндістан'}},
+];
+const cn=c=>c.n[lang]||c.n.ru;
+
+const T={
+  ru:{nl_cat:'Каталог',nl_top:'Топ каналы',nl_sup:'Поддержка',cta:'Купить',eyebrow:'Быстрая сделка · Гарантия',h1a:'Готовые YouTube каналы',h1b:'с монетизацией',hsub:'Покупайте каналы с реальной аудиторией, подключённой монетизацией и чистой историей.',btn1:'Смотреть каналы',btn2:'Подобрать канал',hs1:'Каналов',hs2:'Передача',hs3:'Сделок',srch:'Поиск…',filter_btn:'Фильтры',sl:'Сортировка',s0:'По умолч.',s1:'Цена ↑',s2:'Цена ↓',s3:'Подписчики ↓',s4:'Доход ↓',fg_countries:'Страна аудитории',fg_price:'Цена / Подписчики',fg_params:'Параметры',fg_cat:'Тематика',pr_from:'от 0',f_mon:'Монетизация включена',f_str:'Без страйков',f_act:'Активный канал',f_reset:'Сбросить всё',f_apply:'Применить',all:'Все',ldesc:'Описание',lgal:'Скриншоты',stsubs:'Подписчиков',stv30:'Просм./30д',stinc:'Доход/мес',stpr:'Цена',staud:'Аудитория',mon_yes:'Монетизация',no_str:'Без страйков',active:'Активный',empty:'Ничего не найдено',noscr:'Скриншоты не загружены',nodesc:'Описание отсутствует',buy_cta:'Купить канал →',help_h:'Не знаете что выбрать?',help_p:'Опишите цели — подберём канал под бюджет и нишу. Бесплатно.',help_btn:'Подобрать канал →',cp_t:'Выберите страны',cp_s:'До 3 стран',cp_ok:'Готово',furl:'Ссылка на YouTube',uph:'https://youtube.com/@channel',yth:'Вставьте ссылку — аватар и название подтянутся',ytl:'Загружаем…',ytok:'Готово ✓',yter:'Не удалось. Заполните вручную',fnm:'Название',fnmph:'Заполняется автоматически',fcat:'Категория',fcatph:'Выберите',fpr:'Цена (USD)',fsb:'Подписчиков',fv30:'Просмотров за 30 дней',finc:'Доход/мес (~USD)',fmon:'Монетизация',fstr:'Без страйков',fact:'Активный канал',fco:'Страны аудитории',fcoph:'Нажмите для выбора',ftg:'Telegram',fdesc:'Описание',fdph:'Тематика, аудитория, монетизация…',fscr:'Скриншоты',utxt:'Загрузить скриншоты',usub:'PNG/JPG — до 10',pub:'Опубликовать',pubok:'Канал опубликован!',req:'Заполните название, категорию и цену',other:'Другое',yes:'Да',no:'Нет'},
+  en:{nl_cat:'Catalog',nl_top:'Top channels',nl_sup:'Support',cta:'Buy',eyebrow:'Fast deal · Guaranteed',h1a:'Ready YouTube channels',h1b:'with monetization',hsub:'Buy channels with real audiences, active monetization and clean history.',btn1:'Browse Channels',btn2:'Find My Channel',hs1:'Channels',hs2:'Transfer',hs3:'Deals',srch:'Search…',filter_btn:'Filters',sl:'Sort',s0:'Default',s1:'Price ↑',s2:'Price ↓',s3:'Subscribers ↓',s4:'Income ↓',fg_countries:'Audience country',fg_price:'Price / Subscribers',fg_params:'Parameters',fg_cat:'Category',pr_from:'from 0',f_mon:'Monetized',f_str:'No strikes',f_act:'Active',f_reset:'Reset all',f_apply:'Apply',all:'All',ldesc:'Description',lgal:'Screenshots',stsubs:'Subscribers',stv30:'Views/30d',stinc:'Income/mo',stpr:'Price',staud:'Audience',mon_yes:'Monetized',no_str:'No strikes',active:'Active',empty:'Nothing found',noscr:'No screenshots',nodesc:'No description',buy_cta:'Buy Channel →',help_h:"Don't know which to pick?",help_p:"Tell us your goals — we'll find the right channel. Free.",help_btn:'Find My Channel →',cp_t:'Select countries',cp_s:'Up to 3',cp_ok:'Done',furl:'YouTube Link',uph:'https://youtube.com/@channel',yth:'Paste link — avatar and name load automatically',ytl:'Loading…',ytok:'Done ✓',yter:'Failed. Fill manually',fnm:'Name',fnmph:'Auto-filled',fcat:'Category',fcatph:'Choose',fpr:'Price (USD)',fsb:'Subscribers',fv30:'Views last 30 days',finc:'Income/mo (~USD)',fmon:'Monetized',fstr:'No strikes',fact:'Active channel',fco:'Audience countries',fcoph:'Click to choose',ftg:'Telegram',fdesc:'Description',fdph:'Topic, audience, monetization…',fscr:'Screenshots',utxt:'Upload screenshots',usub:'PNG/JPG — up to 10',pub:'Publish',pubok:'Channel published!',req:'Fill in name, category and price',other:'Other',yes:'Yes',no:'No'},
+  uk:{nl_cat:'Каталог',nl_top:'Топ канали',nl_sup:'Підтримка',cta:'Купити',eyebrow:'Швидка угода · Гарантія',h1a:'Готові YouTube канали',h1b:'з монетизацією',hsub:"Купуйте канали з реальною аудиторією та монетизацією.",btn1:'Дивитися канали',btn2:'Підібрати канал',hs1:'Каналів',hs2:'Передача',hs3:'Угод',srch:'Пошук…',filter_btn:'Фільтри',sl:'Сортування',s0:'За замовч.',s1:'Ціна ↑',s2:'Ціна ↓',s3:'Підписники ↓',s4:'Дохід ↓',fg_countries:'Країна аудиторії',fg_price:'Ціна / Підписники',fg_params:'Параметри',fg_cat:'Тематика',pr_from:'від 0',f_mon:'Монетизація',f_str:'Без страйків',f_act:'Активний',f_reset:'Скинути все',f_apply:'Застосувати',all:'Всі',ldesc:'Опис',lgal:'Скріншоти',stsubs:'Підписників',stv30:'Перегл./30д',stinc:'Дохід/міс',stpr:'Ціна',staud:'Аудиторія',mon_yes:'Монетизація',no_str:'Без страйків',active:'Активний',empty:'Нічого не знайдено',noscr:'Скріншоти відсутні',nodesc:'Опис відсутній',buy_cta:'Купити канал →',help_h:'Не знаєте що вибрати?',help_p:'Опишіть цілі — підберемо канал. Безкоштовно.',help_btn:'Підібрати канал →',cp_t:'Оберіть країни',cp_s:'До 3 країн',cp_ok:'Готово',furl:'Посилання на YouTube',uph:'https://youtube.com/@channel',yth:'Вставте посилання — підтягнеться автоматично',ytl:'Завантаження…',ytok:'Готово ✓',yter:'Не вдалося. Заповніть вручну',fnm:'Назва',fnmph:'Автоматично',fcat:'Категорія',fcatph:'Оберіть',fpr:'Ціна (USD)',fsb:'Підписників',fv30:'Перегляди за 30 днів',finc:'Дохід/міс (~USD)',fmon:'Монетизація',fstr:'Без страйків',fact:'Активний',fco:'Країни аудиторії',fcoph:'Натисніть',ftg:'Telegram',fdesc:'Опис',fdph:'Тематика, аудиторія…',fscr:'Скріншоти',utxt:'Завантажити скріншоти',usub:'PNG/JPG — до 10',pub:'Опублікувати',pubok:'Опубліковано!',req:'Заповніть назву, категорію та ціну',other:'Інше',yes:'Так',no:'Ні'},
+  kg:{nl_cat:'Каталог',nl_top:'Топ каналдар',nl_sup:'Колдоо',cta:'Сатып алуу',eyebrow:'Тез келишим · Кепилдик',h1a:'Даяр YouTube каналдар',h1b:'монетизация менен',hsub:'Чыныгы аудиториясы бар каналдарды сатып алыңыз.',btn1:'Каналдарды кароо',btn2:'Канал тандоо',hs1:'Канал',hs2:'Берүү',hs3:'Келишим',srch:'Издөө…',filter_btn:'Фильтрлер',sl:'Иреттөө',s0:'Демейки',s1:'Баасы ↑',s2:'Баасы ↓',s3:'Жазылуучулар ↓',s4:'Киреше ↓',fg_countries:'Аудитория өлкөсү',fg_price:'Баасы / Жазылуучулар',fg_params:'Параметрлер',fg_cat:'Тема',pr_from:'0дан',f_mon:'Монетизация',f_str:'Страйк жок',f_act:'Активдүү',f_reset:'Баарын тазалоо',f_apply:'Колдонуу',all:'Баары',ldesc:'Сүрөттөмө',lgal:'Скриншоттор',stsubs:'Жазылуучулар',stv30:'Көрүүлөр/30күн',stinc:'Киреше/ай',stpr:'Баасы',staud:'Аудитория',mon_yes:'Монетизация',no_str:'Страйк жок',active:'Активдүү',empty:'Эч нерсе жок',noscr:'Скриншоттор жок',nodesc:'Сүрөттөмө жок',buy_cta:'Каналды сатып алуу →',help_h:'Эмнени тандаарыңды билбейсиңби?',help_p:'Максатыңызды айтыңыз — канал тандап беребиз.',help_btn:'Канал тандоо →',cp_t:'Өлкөлөрдү тандаңыз',cp_s:'3кө чейин',cp_ok:'Даяр',furl:'YouTube шилтемеси',uph:'https://youtube.com/@channel',yth:'Шилтемени чаптаңыз',ytl:'Жүктөлүүдө…',ytok:'Даяр ✓',yter:'Жүктөлгөн жок',fnm:'Аты',fnmph:'Автоматтык',fcat:'Категория',fcatph:'Тандаңыз',fpr:'Баасы (USD)',fsb:'Жазылуучулар',fv30:'30 күндөгү көрүүлөр',finc:'Айлык киреше (~USD)',fmon:'Монетизация',fstr:'Страйк жок',fact:'Активдүү',fco:'Аудитория өлкөлөрү',fcoph:'Тандоо үчүн басыңыз',ftg:'Telegram',fdesc:'Сүрөттөмө',fdph:'Тема, аудитория…',fscr:'Скриншоттор',utxt:'Скриншоттор жүктөө',usub:'PNG/JPG — 10гө чейин',pub:'Жарыялоо',pubok:'Жарыяланды!',req:'Толтуруңуз',other:'Башка',yes:'Ооба',no:'Жок'},
+  uz:{nl_cat:'Katalog',nl_top:'Top kanallar',nl_sup:'Yordam',cta:"Sotib olish",eyebrow:"Tez bitim · Kafolat",h1a:'Tayyor YouTube kanallar',h1b:'monetizatsiya bilan',hsub:"Haqiqiy auditoriyali kanallarni xarid qiling.",btn1:'Kanallarni koʻrish',btn2:'Kanal tanlash',hs1:'Kanal',hs2:'Topshirish',hs3:'Bitim',srch:'Qidirish…',filter_btn:'Filtrlar',sl:'Saralash',s0:'Standart',s1:'Narx ↑',s2:'Narx ↓',s3:'Obunachilар ↓',s4:'Daromad ↓',fg_countries:'Auditoriya mamlakatи',fg_price:'Narx / Obunachilар',fg_params:'Parametrlar',fg_cat:'Mavzu',pr_from:'0 dan',f_mon:'Monetizatsiya',f_str:'Strajk yoʻq',f_act:'Faol',f_reset:"Barchasini tiklash",f_apply:"Qoʻllash",all:'Hammasi',ldesc:'Tavsif',lgal:'Skrinshotlar',stsubs:'Obunachilар',stv30:"Ko'rishlar/30kun",stinc:'Daromad/oy',stpr:'Narxi',staud:'Auditoriya',mon_yes:'Monetizatsiya',no_str:"Strajk yo'q",active:'Faol',empty:'Hech narsa topilmadi',noscr:"Skrinshotlar yo'q",nodesc:"Tavsif yo'q",buy_cta:'Kanalni sotib olish →',help_h:"Nima tanlashni bilmayapsizmi?",help_p:'Maqsadingizni ayting — kanal tanlab beramiz.',help_btn:'Kanal tanlash →',cp_t:"Mamlakatlarni tanlang",cp_s:'3 tagacha',cp_ok:'Tayyor',furl:'YouTube havolasi',uph:'https://youtube.com/@channel',yth:'Havolani joylashtiring — avtomatik yuklanadi',ytl:'Yuklanmoqda…',ytok:'Tayyor ✓',yter:'Yuklanmadi',fnm:'Nomi',fnmph:'Avtomatik',fcat:'Kategoriya',fcatph:'Tanlang',fpr:'Narxi (USD)',fsb:'Obunachilар',fv30:"30 kundagi ko'rishlar",finc:'Oylik daromad (~USD)',fmon:'Monetizatsiya',fstr:"Strajk yo'q",fact:'Faol',fco:'Auditoriya mamlakatlari',fcoph:'Bosing',ftg:'Telegram',fdesc:'Tavsif',fdph:'Mavzu, auditoriya…',fscr:'Skrinshotlar',utxt:'Skrinshotlarni yuklash',usub:'PNG/JPG — 10 tagacha',pub:'Nashr etish',pubok:'Nashr etildi!',req:"To'ldiring",other:'Boshqa',yes:'Ha',no:"Yo'q"},
+  kz:{nl_cat:'Каталог',nl_top:'Топ каналдар',nl_sup:'Қолдау',cta:'Сатып алу',eyebrow:'Жылдам мәміле · Кепілдік',h1a:'Дайын YouTube каналдар',h1b:'монетизациямен',hsub:'Нақты аудиториялы каналдар сатып алыңыз.',btn1:'Каналдарды қарау',btn2:'Канал таңдау',hs1:'Канал',hs2:'Беру',hs3:'Мәміле',srch:'Іздеу…',filter_btn:'Сүзгілер',sl:'Сұрыптау',s0:'Әдепкі',s1:'Баға ↑',s2:'Баға ↓',s3:'Жазылушылар ↓',s4:'Табыс ↓',fg_countries:'Аудитория елі',fg_price:'Баға / Жазылушылар',fg_params:'Параметрлер',fg_cat:'Тақырып',pr_from:'0 -дан',f_mon:'Монетизация',f_str:'Страйксыз',f_act:'Белсенді',f_reset:'Барлығын сифырлау',f_apply:'Қолдану',all:'Барлығы',ldesc:'Сипаттама',lgal:'Скриншоттар',stsubs:'Жазылушылар',stv30:'Қараулар/30күн',stinc:'Табыс/ай',stpr:'Баға',staud:'Аудитория',mon_yes:'Монетизация',no_str:'Страйксыз',active:'Белсенді',empty:'Ештеңе табылмады',noscr:'Скриншоттар жоқ',nodesc:'Сипаттама жоқ',buy_cta:'Каналды сатып алу →',help_h:'Нені таңдарды білмейсіз бе?',help_p:'Мақсатыңызды айтыңыз — канал таңдап береміз. Тегін.',help_btn:'Канал таңдау →',cp_t:'Елдерді таңдаңыз',cp_s:'3-ке дейін',cp_ok:'Дайын',furl:'YouTube сілтемесі',uph:'https://youtube.com/@channel',yth:'Сілтемені қойыңыз — автоматты жүктеледі',ytl:'Жүктелуде…',ytok:'Дайын ✓',yter:'Жүктелмеді',fnm:'Атауы',fnmph:'Автоматты',fcat:'Категория',fcatph:'Таңдаңыз',fpr:'Бағасы (USD)',fsb:'Жазылушылар',fv30:'30 күндегі қаралымдар',finc:'Айлық табыс (~USD)',fmon:'Монетизация',fstr:'Страйксыз',fact:'Белсенді',fco:'Аудитория елдері',fcoph:'Таңдау үчін басыңыз',ftg:'Telegram',fdesc:'Сипаттама',fdph:'Тақырып, аудитория…',fscr:'Скриншоттар',utxt:'Скриншоттарды жүктеу',usub:'PNG/JPG — 10-ға дейін',pub:'Жариялау',pubok:'Жарияланды!',req:'Толтырыңыз',other:'Басқа',yes:'Иә',no:'Жоқ'}
+};
+const CAT={ru:{Music:'Музыка',Games:'Игры',History:'История',Lifestyle:'Лайфстайл',News:'Новости',Sport:'Спорт',Tech:'Технологии',Humor:'Юмор',Other:'Другое'},en:{Music:'Music',Games:'Games',History:'History',Lifestyle:'Lifestyle',News:'News',Sport:'Sport',Tech:'Tech',Humor:'Humor',Other:'Other'},uk:{Music:'Музика',Games:'Ігри',History:'Історія',Lifestyle:'Лайфстайл',News:'Новини',Sport:'Спорт',Tech:'Технології',Humor:'Гумор',Other:'Інше'},kg:{Music:'Музыка',Games:'Оюндар',History:'Тарых',Lifestyle:'Жашоо',News:'Жаңылыктар',Sport:'Спорт',Tech:'Технология',Humor:'Юмор',Other:'Башка'},uz:{Music:'Musiqa',Games:"O'yinlar",History:'Tarix',Lifestyle:'Turmush',News:'Yangiliklar',Sport:'Sport',Tech:'Texnologiya',Humor:'Hazil',Other:'Boshqa'},kz:{Music:'Музыка',Games:'Ойындар',History:'Тарих',Lifestyle:'Өмір салты',News:'Жаңалықтар',Sport:'Спорт',Tech:'Технология',Humor:'Юмор',Other:'Басқа'}};
+
+let lang='ru';
+function t(k){return T[lang]?.[k]||k;}
+function cl(c){return CAT[lang]?.[c]||c;}
+function fmt(n){if(!n||n==0)return'—';n=parseInt(n);if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1000)return(n/1000).toFixed(1)+'K';return String(n);}
+function gi(n){return n.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);}
+
+function applyT(){
+  document.querySelectorAll('[data-t]').forEach(el=>{const k=el.getAttribute('data-t');if(el.tagName==='OPTION')el.textContent=t(k);else el.textContent=t(k);});
+  document.querySelectorAll('[data-ph]').forEach(el=>{el.placeholder=t(el.getAttribute('data-ph'));});
+  renderCatChips();renderCards();renderCtrFilter();
+}
+function setLang(l){lang=l;applyT();}
+
+let dark=true;
+function toggleTheme(){dark=!dark;document.body.classList.toggle('light',!dark);document.getElementById('themeBtn').textContent=dark?'🌙':'☀️';}
+function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'});}
+function scrollToGrid(){document.getElementById('gridAnchor').scrollIntoView({behavior:'smooth'});}
+
+function showTgReviews(){
+  document.getElementById('mainApp').style.display='none';
+  document.getElementById('tgRevPage').classList.add('open');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function hideTgReviews(){
+  document.getElementById('tgRevPage').classList.remove('open');
+  document.getElementById('mainApp').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── SECRET ADMIN ──────────────────────────────────────────────────
+let sc=0,sct=null;
+function sClick(){sc++;clearTimeout(sct);sct=setTimeout(()=>sc=0,2500);if(sc>=5){sc=0;openAdmin();}}
+
+// ── FILTER STATE ──────────────────────────────────────────────────
+const CATS_BASE=['Music','Games','History','Lifestyle','News','Sport','Tech','Humor'];
+let selCtrs=[];         // sidebar country filter
+let activeCatF='all';   // category chip
+let fToggles={monetized:false,nostrikes:false,active:false};
+let prMaxF=1000;
+let panelOpen=false;
+
+function toggleFilters(){
+  panelOpen=!panelOpen;
+  document.getElementById('filterPanel').classList.toggle('open',panelOpen);
+  document.getElementById('filterBtn').classList.toggle('active',panelOpen);
+}
+function applyAndClose(){panelOpen=false;document.getElementById('filterPanel').classList.remove('open');document.getElementById('filterBtn').classList.remove('active');updateFilterBtn();renderCards();}
+function updateFilterBtn(){
+  const hasF=selCtrs.length>0||Object.values(fToggles).some(Boolean)||prMaxF<1000||parseInt(document.getElementById('subMinInp')?.value)||0||parseInt(document.getElementById('subMaxInp')?.value)||0;
+  document.getElementById('filterBtn').classList.toggle('has-filters',hasF);
+}
+
+function onPrSlide(v){prMaxF=parseInt(v);const el=document.getElementById('prMaxLbl');el.textContent=v>=1000?'до любой':('до '+v+' USD');renderCards();}
+function togF(k){fToggles[k]=!fToggles[k];document.getElementById('tgl_'+k).classList.toggle('on',fToggles[k]);updateFilterBtn();}
+
+function resetAllFilters(){selCtrs=[];fToggles={monetized:false,nostrikes:false,active:false};prMaxF=1000;['monetized','nostrikes','active'].forEach(k=>document.getElementById('tgl_'+k)?.classList.remove('on'));const sl=document.getElementById('prSlider');if(sl)sl.value=1000;const pl=document.getElementById('prMaxLbl');if(pl)pl.textContent='до любой';const si=document.getElementById('subMinInp');const sx=document.getElementById('subMaxInp');if(si)si.value='';if(sx)sx.value='';renderCtrFilter();updateFilterBtn();renderCards();}
+
+function renderCtrFilter(){
+  const el=document.getElementById('ctrList');if(!el)return;
+  el.innerHTML=CTRS.map(c=>{const sel=selCtrs.includes(c.f);const dis=!sel&&selCtrs.length>=3;
+    return `<div class="ctr-item${sel?' sel':''}${dis?' dis':''}" onclick="togCtr('${c.f}')"><span class="ctr-flag">${c.f}</span><span class="ctr-name">${cn(c)}</span><div class="ctr-chk"></div></div>`;
+  }).join('');
+}
+function togCtr(f){const i=selCtrs.indexOf(f);if(i>=0)selCtrs.splice(i,1);else if(selCtrs.length<3)selCtrs.push(f);renderCtrFilter();updateFilterBtn();renderCards();}
+
+function renderCatChips(){
+  const el=document.getElementById('catChips');if(!el)return;
+  el.innerHTML=['all',...CATS_BASE].map(c=>
+    `<div class="cat-chip${activeCatF===c?' on':''}" onclick="setCatF('${c}')">${c==='all'?t('all'):cl(c)}</div>`
+  ).join('');
+  // also chips row on main
+  const cr=document.getElementById('chipsRow');if(!cr)return;
+  cr.innerHTML=['all',...CATS_BASE,...xC].map(c=>
+    `<div class="chip${activeCatF===c?' on':''}" onclick="setCatF('${c}')">${c==='all'?t('all'):cl(c)}</div>`
+  ).join('');
+}
+function setCatF(c){activeCatF=c;renderCatChips();renderCards();}
+
+// ── ADMIN ─────────────────────────────────────────────────────────
+const PWD='nnstore2025';
+let adminIn=false,aTab='add',pScr=[],ytAv='',ytNm='',ytTmr=null,cpSel=[],cpTgt=null;
+
+function openAdmin(){document.getElementById('mainApp').style.display='none';document.getElementById('admWrap').classList.add('open');}
+function showMain(){document.getElementById('mainApp').style.display='block';document.getElementById('admWrap').classList.remove('open');}
+function doLogin(){if(document.getElementById('apwd').value===PWD){adminIn=true;document.getElementById('admLogin').style.display='none';document.getElementById('admDash').style.display='block';renderAdmin();}else{document.getElementById('aerr').textContent='Неверный пароль';}}
+function doLogout(){adminIn=false;document.getElementById('admLogin').style.display='block';document.getElementById('admDash').style.display='none';document.getElementById('apwd').value='';document.getElementById('aerr').textContent='';showMain();}
+function swTab(tab){aTab=tab;document.querySelectorAll('.atab').forEach(e=>e.classList.remove('on'));document.getElementById('t'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('on');renderAdmin();}
+function renderAdmin(){aTab==='add'?renderForm():renderList();}
+
+function openCp(el){cpTgt=el;cpSel=JSON.parse(el.dataset.sel||'[]');document.getElementById('cpSrch').value='';renderCp();document.getElementById('cpbg').classList.add('open');document.body.style.overflow='hidden';}
+function closeCp(){document.getElementById('cpbg').classList.remove('open');document.body.style.overflow='';}
+function cpBgClose(e){if(e.target===document.getElementById('cpbg'))closeCp();}
+function renderCp(){const q=document.getElementById('cpSrch').value.toLowerCase();const filtered=CTRS.filter(c=>!q||cn(c).toLowerCase().includes(q));document.getElementById('cpList').innerHTML=filtered.map(c=>{const k=c.f+cn(c);const sel=cpSel.includes(k);const dis=!sel&&cpSel.length>=3;return `<div class="cp-item${sel?' sel':''}${dis?' dis':''}" onclick="togCp('${c.f}')"><span class="cp-flag">${c.f}</span><span class="cp-name">${cn(c)}</span><div class="cp-chk"></div></div>`;}).join('');document.getElementById('cpLbl').textContent=cpSel.length+'/3';}
+function togCp(flag){const c=CTRS.find(x=>x.f===flag);if(!c)return;const k=flag+cn(c);const i=cpSel.indexOf(k);if(i>=0)cpSel.splice(i,1);else if(cpSel.length<3)cpSel.push(k);renderCp();}
+function confirmCp(){if(!cpTgt)return;cpTgt.dataset.sel=JSON.stringify(cpSel);const d=document.getElementById('cpDisp');if(d){if(!cpSel.length)d.innerHTML=`<span class="cph">${t('fcoph')}</span>`;else d.innerHTML=cpSel.map(k=>`<span class="ctag">${k}</span>`).join('');}closeCp();}
+
+function renderForm(){
+  pScr=[];ytAv='';ytNm='';
+  const catOpts=CATS_BASE.map(c=>`<option value="${c}">${cl(c)}</option>`).join('');
+  document.getElementById('admBody').innerHTML=`
+  <div class="fc">
+    <div class="fsec"><div class="fsec-t">01 — YouTube</div>
+      <div class="fg"><label>${t('furl')}</label>
+        <input type="url" id="fUrl" placeholder="${t('uph')}" oninput="onYt(this.value)"/>
+        <div class="ytbox" id="ytBox"><div class="ytav" id="ytAv">📺</div><div><div class="ytnm" id="ytNm">${t('yth')}</div><div class="ytsb" id="ytSb"></div><div class="ytst" id="ytSt"></div></div></div>
+      </div>
+    </div>
+    <div class="fsec"><div class="fsec-t">02 — Информация</div>
+      <div class="fg"><label>${t('fnm')}</label><input type="text" id="fNm" placeholder="${t('fnmph')}"/></div>
+      <div class="fg-2">
+        <div class="fg"><label>${t('fcat')}</label><select id="fCat"><option value="">${t('fcatph')}</option>${catOpts}<option value="Other">${t('other')}</option></select></div>
+        <div class="fg"><label>${t('fpr')}</label><input type="number" id="fPr" placeholder="150"/></div>
+      </div>
+    </div>
+    <div class="fsec"><div class="fsec-t">03 — Статистика</div>
+      <div class="fg-2">
+        <div class="fg"><label>${t('fsb')}</label><input type="number" id="fSb" placeholder="10000"/></div>
+        <div class="fg"><label>${t('fv30')}</label><input type="number" id="fV30" placeholder="50000"/></div>
+      </div>
+      <div class="fg"><label>${t('finc')}</label><input type="number" id="fInc" placeholder="20"/></div>
+    </div>
+    <div class="fsec"><div class="fsec-t">04 — Аудитория</div>
+      <div class="fg"><label>${t('fco')}</label>
+        <div class="cdisp" onclick="openCp(document.getElementById('fCoData'))"><div id="cpDisp"><span class="cph">${t('fcoph')}</span></div></div>
+        <input type="hidden" id="fCoData" data-sel="[]"/>
+      </div>
+      <div class="fg"><label>${t('ftg')}</label><input type="text" id="fTg" value="@dmytroseller"/></div>
+    </div>
+    <div class="fsec"><div class="fsec-t">05 — Параметры</div>
+      <div class="fg-3">
+        <div class="fg"><label>${t('fmon')}</label><select id="fMon"><option value="1">${t('yes')}</option><option value="0">${t('no')}</option></select></div>
+        <div class="fg"><label>${t('fstr')}</label><select id="fStr"><option value="1">${t('yes')}</option><option value="0">${t('no')}</option></select></div>
+        <div class="fg"><label>${t('fact')}</label><select id="fAct"><option value="1">${t('yes')}</option><option value="0">${t('no')}</option></select></div>
+      </div>
+    </div>
+    <div class="fsec"><div class="fsec-t">06 — Описание</div><div class="fg"><textarea id="fDsc" placeholder="${t('fdph')}"></textarea></div></div>
+    <div class="fsec"><div class="fsec-t">07 — Скриншоты</div>
+      <div class="upzone" onclick="document.getElementById('fScr').click()"><div style="font-size:26px;margin-bottom:6px">🖼</div><div style="font-size:13px;font-weight:600;color:var(--text2)">${t('utxt')}</div><div style="font-size:11px;color:var(--text3);margin-top:3px">${t('usub')}</div></div>
+      <input type="file" id="fScr" accept="image/*" multiple style="display:none" onchange="prevScr(event)"/>
+      <div class="scrg" id="scrG"></div>
+    </div>
+    <div class="pubrow"><button class="pubbtn" onclick="pubCh()">↑ ${t('pub')}</button></div>
+  </div>`;
+}
+
+function onYt(val){
+  clearTimeout(ytTmr);ytAv='';ytNm='';
+  const nm=document.getElementById('ytNm'),av=document.getElementById('ytAv'),sb=document.getElementById('ytSb'),st=document.getElementById('ytSt'),box=document.getElementById('ytBox');
+  if(!val.trim()){nm.textContent=t('yth');nm.className='ytnm';av.innerHTML='📺';av.style.cssText='';sb.textContent='';st.textContent='';box.className='ytbox';return;}
+  nm.innerHTML=`<span class="spin">⟳</span> ${t('ytl')}`;nm.className='ytnm';
+  ytTmr=setTimeout(()=>doYt(val.trim()),650);
+}
+async function doYt(url){
+  const nm=document.getElementById('ytNm'),av=document.getElementById('ytAv'),sb=document.getElementById('ytSb'),st=document.getElementById('ytSt'),box=document.getElementById('ytBox'),ni=document.getElementById('fNm'),si=document.getElementById('fSb');
+  let gN=false,gA=false;
+  let h='';
+  try{const u=new URL(url);const p=u.pathname.split('/').filter(Boolean);if(p[0]?.startsWith('@'))h=p[0];else if(p[0]==='channel')h=p[1]||'';else if(p[0]==='c')h='@'+p[1];else if(p[0]&&p[0]!=='watch')h='@'+p[0];}catch(e){h=url.startsWith('@')?url:'@'+url.replace(/.*\//,'');}
+  const cl2=h.replace('@','');
+  try{const r=await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`,{signal:AbortSignal.timeout(6000)});if(r.ok){const d=await r.json();if(d.author_name){ytNm=d.author_name;gN=true;nm.textContent=d.author_name;nm.className='ytnm ok';if(ni&&!ni.value)ni.value=d.author_name;}}}catch(e){}
+  const pu=h.startsWith('UC')?`https://www.youtube.com/channel/${h}`:`https://www.youtube.com/${h.startsWith('@')?h:'@'+cl2}`;
+  try{
+    const res=await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(pu)}`,{signal:AbortSignal.timeout(10000)});
+    if(res.ok){
+      const j=await res.json();const html=j.contents||'';
+      const aPs=[/"avatar":\{"thumbnails":\[.*?"url":"(https:\/\/yt[^"\\]+)"/,/"channelAvatarImageUrl":"(https:\/\/[^"]+)"/,/itemprop="image"\s+content="(https:\/\/[^"]+)"/,/"thumbnail":\{"thumbnails":\[\{"url":"(https:\/\/yt[^"]+)"/];
+      for(const p of aPs){const m=html.match(p);if(m?.[1]){const raw=m[1].replace(/\\u0026/g,'&');ytAv=raw;av.innerHTML=`<img src="${raw}" onerror="this.parentNode.innerHTML='📺'"/>`;av.style.cssText='overflow:hidden;padding:0;';gA=true;break;}}
+      if(!gN){const nPs=[/"channelMetadataRenderer":\{"title":"([^"]+)"/,/"c4TabbedHeaderRenderer":\{"channelId":"[^"]+","title":"([^"]+)"/];for(const p of nPs){const m=html.match(p);if(m?.[1]){ytNm=m[1];gN=true;nm.textContent=m[1];nm.className='ytnm ok';if(ni&&!ni.value)ni.value=m[1];break;}}}
+      const sPs=[/"subscriberCountText":\{"accessibility":\{"accessibilityData":\{"label":"([^"]+?)(?:,|")}/,/"subscriberCountText":\{"simpleText":"([^"]+)"/];
+      for(const p of sPs){const m=html.match(p);if(m?.[1]){const n=pS(m[1]);if(n>0){sb.textContent=fmt(n)+' подп.';if(si&&!si.value)si.value=n;break;}}}
+    }
+  }catch(e){}
+  if(gN||gA){box.classList.add('loaded');st.textContent=t('ytok');}
+  else{st.textContent=t('yter');if(!gN){nm.textContent=h||t('yter');nm.className='ytnm';}}
+}
+function pS(s){if(!s)return 0;s=s.replace(/\s/g,'').replace(',','.');for(const[k,v]of Object.entries({K:1e3,k:1e3,M:1e6,m:1e6,B:1e9,тыс:1e3,млн:1e6}))if(s.includes(k))return Math.round(parseFloat(s)*v);return parseInt(s.replace(/\D/g,''))||0;}
+function prevScr(e){const files=Array.from(e.target.files).slice(0,10);pScr=[];const g=document.getElementById('scrG');g.innerHTML='';files.forEach(f=>{const r=new FileReader();r.onload=ev=>{const i=pScr.push(ev.target.result)-1;const img=document.createElement('img');img.src=ev.target.result;img.onclick=()=>openFs(pScr,i);g.appendChild(img);};r.readAsDataURL(f);});}
+
+function pubCh(){
+  const name=(document.getElementById('fNm')?.value.trim()||ytNm).trim();
+  const cat=document.getElementById('fCat')?.value,price=parseFloat(document.getElementById('fPr')?.value);
+  const subs=parseInt(document.getElementById('fSb')?.value)||0,views30=parseInt(document.getElementById('fV30')?.value)||0,income=parseFloat(document.getElementById('fInc')?.value)||0;
+  const monetized=document.getElementById('fMon')?.value==='1',nostrikes=document.getElementById('fStr')?.value==='1',active=document.getElementById('fAct')?.value==='1';
+  const coData=document.getElementById('fCoData');const countries=coData?JSON.parse(coData.dataset.sel||'[]'):[];
+  const tg=document.getElementById('fTg')?.value.trim()||'@dmytroseller',desc=document.getElementById('fDsc')?.value.trim(),ytLink=document.getElementById('fUrl')?.value.trim();
+  if(!name||!cat||!price){alert(t('req'));return;}
+  LS.unshift({name,cat,price:Math.round(price),subs,views30,income,monetized,nostrikes,active,countries,tg,ytLink,avatarUrl:ytAv,desc:desc||t('nodesc'),screens:[...pScr],color:COLS[Math.floor(Math.random()*COLS.length)],ok:true});
+  if(!CATS_BASE.includes(cat)&&!xC.includes(cat))xC.push(cat);
+  renderCatChips();renderCards();updHero();alert(t('pubok'));renderForm();
+}
+
+function renderList(){
+  const items=LS.filter(l=>l.ok);const b=document.getElementById('admBody');
+  if(!items.length){b.innerHTML=`<div class="empty-adm">${t('empty')}</div>`;return;}
+  b.innerHTML=`<div class="fc">${items.map(l=>{const idx=LS.indexOf(l);const col=l.color||COLS[0];const avH=l.avatarUrl?`<div class="citem-av"><img src="${l.avatarUrl}" onerror="this.parentNode.style.background='${col}';this.parentNode.innerHTML='${gi(l.name)}'"/></div>`:`<div class="citem-av" style="background:${col}">${gi(l.name)}</div>`;return `<div class="citem">${avH}<div class="citem-info"><div class="citem-name">${l.name}</div><div class="citem-meta">${cl(l.cat)} · ${l.price} USD · ${fmt(l.subs)} подп.${l.income?` · ~$${l.income}/мес`:''}</div></div><button class="delbtn" onclick="delL(${idx})">Удалить</button></div>`;}).join('')}</div>`;
+}
+function delL(i){if(confirm('Удалить «'+LS[i].name+'»?')){LS.splice(i,1);renderList();renderCards();renderCatChips();updHero();}}
+
+// ── DATA ──────────────────────────────────────────────────────────
+const COLS=['#007aff','#34c759','#ff9500','#af52de','#ff3b30','#5ac8fa','#ffcc00','#00c7be'];
+let xC=[];
+let LS=[
+  {name:'PopRushX',cat:'Music',price:149,subs:6500,views30:48000,income:20,monetized:true,nostrikes:true,active:true,countries:['🇷🇺Россия','🇺🇦Украина'],tg:'@dmytroseller',ytLink:'',avatarUrl:'',desc:'Музыкальный канал с качественным контентом. Монетизирован через YouTube Partner Program. Стабильный рост аудитории.',screens:[],color:'#007aff',ok:true},
+  {name:'Historical War Chronicles',cat:'History',price:160,subs:7000,views30:40000,income:18,monetized:true,nostrikes:true,active:true,countries:['🇷🇺Россия','🇩🇪Германия'],tg:'@dmytroseller',ytLink:'',avatarUrl:'',desc:'Документальный канал об исторических конфликтах. Лояльная аудитория 25–45 лет.',screens:[],color:'#af52de',ok:true},
+  {name:'GameZone UA',cat:'Games',price:195,subs:8500,views30:90000,income:35,monetized:true,nostrikes:true,active:true,countries:['🇺🇦Украина','🇵🇱Польша'],tg:'@dmytroseller',ytLink:'',avatarUrl:'',desc:'Обзоры игр и летсплеи. Активная молодая аудитория, высокая вовлечённость.',screens:[],color:'#34c759',ok:true},
+  {name:'TechInsider',cat:'Tech',price:220,subs:10000,views30:120000,income:55,monetized:true,nostrikes:true,active:true,countries:['🇺🇸США','🇬🇧Великобритания'],tg:'@dmytroseller',ytLink:'',avatarUrl:'',desc:'Технологические новости и обзоры гаджетов. Партнёрские интеграции.',screens:[],color:'#ff9500',ok:true},
+  {name:'SportPro',cat:'Sport',price:130,subs:5200,views30:32000,income:12,monetized:false,nostrikes:true,active:true,countries:['🇷🇺Россия'],tg:'@dmytroseller',ytLink:'',avatarUrl:'',desc:'Спортивная аналитика. Без монетизации, идеально для нового бренда.',screens:[],color:'#ff3b30',ok:true},
+];
+
+function updHero(){const el=document.getElementById('hsCount');if(el)el.textContent=LS.filter(l=>l.ok).length;}
+
+function renderCards(){
+  const q=document.getElementById('srchInp')?.value.toLowerCase()||'';
+  const subMinV=parseInt(document.getElementById('subMinInp')?.value)||0;
+  const subMaxV=parseInt(document.getElementById('subMaxInp')?.value)||999999999;
+  const grid=document.getElementById('cardsGrid');if(!grid)return;
+
+  let items=LS.filter(l=>{
+    if(!l.ok)return false;
+    if(activeCatF!=='all'&&l.cat!==activeCatF)return false;
+    if(q&&!l.name.toLowerCase().includes(q)&&!l.cat.toLowerCase().includes(q)&&!l.desc.toLowerCase().includes(q))return false;
+    if(prMaxF<1000&&l.price>prMaxF)return false;
+    if(l.subs<subMinV||l.subs>subMaxV)return false;
+    if(fToggles.monetized&&!l.monetized)return false;
+    if(fToggles.nostrikes&&!l.nostrikes)return false;
+    if(fToggles.active&&!l.active)return false;
+    if(selCtrs.length>0){const ok=selCtrs.some(f=>(l.countries||[]).some(c=>c.startsWith(f)));if(!ok)return false;}
+    return true;
+  });
+
+  const s=document.getElementById('sortSel')?.value||'def';
+  if(s==='pa')items.sort((a,b)=>a.price-b.price);
+  else if(s==='pd')items.sort((a,b)=>b.price-a.price);
+  else if(s==='sd')items.sort((a,b)=>(b.subs||0)-(a.subs||0));
+  else if(s==='id')items.sort((a,b)=>(b.income||0)-(a.income||0));
+
+  const meta=document.getElementById('gridMeta');
+  if(meta)meta.textContent=items.length+' '+(lang==='ru'?'каналов':lang==='en'?'channels':lang==='uk'?'каналів':'каналов');
+
+  if(!items.length){grid.innerHTML=`<div class="grid-empty">${t('empty')}</div>`;return;}
+  grid.innerHTML=items.map(l=>{
+    const idx=LS.indexOf(l);const col=l.color||COLS[0];
+    const avH=l.avatarUrl?`<div class="c-av"><img src="${l.avatarUrl}" onerror="this.parentNode.style.background='${col}';this.parentNode.innerHTML='${gi(l.name)}'"/></div>`:`<div class="c-av" style="background:${col}">${gi(l.name)}</div>`;
+    const thumbs=l.screens.slice(0,3).map(s=>`<img src="${s}"/>`).join('');
+    const cos=(l.countries||[]).filter(Boolean).slice(0,3);
+    return `<div class="card" onclick="openDetail(${idx})">
+      <div class="card-head">${avH}<div><div class="c-name">${l.name}</div><div class="c-cat">${cl(l.cat)}</div></div></div>
+      <div class="c-badges">
+        ${l.monetized?`<div class="badge b-green">✓ ${t('mon_yes')}</div>`:''}
+        ${l.nostrikes?`<div class="badge b-blue">✓ ${t('no_str')}</div>`:''}
+        ${l.active?`<div class="badge b-gold">⚡ ${t('active')}</div>`:''}
+      </div>
+      <div class="c-stats">
+        <div class="cst"><div class="cst-v">${fmt(l.subs)}</div><div class="cst-l">${t('stsubs')}</div></div>
+        <div class="cst"><div class="cst-v">${fmt(l.views30)}</div><div class="cst-l">${t('stv30')}</div></div>
+        <div class="cst"><div class="cst-v">${l.income?'~$'+l.income:'—'}</div><div class="cst-l">${t('stinc')}</div></div>
+        <div class="cst"><div class="cst-v">${l.price}$</div><div class="cst-l">${t('stpr')}</div></div>
+      </div>
+      ${cos.length?`<div class="c-countries">${cos.map((c,i)=>{const m=c.match(/^(\S+)\s*(.*)/);const flag=m?m[1]:c;const name=m?m[2]:'';return `${i>0?'<span class="ctry-dot">·</span>':''}<span class="ctry">${flag}</span><span class="ctry-n">${name}</span>`;}).join('')}</div>`:''}
+      ${(()=>{const avg=getAvgScore(l.name);const revs=REVIEWS[l.name]||[];return revs.length?`<div class="rev-card-stars">${[1,2,3,4,5].map(i=>`<span class="star${i<=Math.round(avg)?' filled':''}">${i<=Math.round(avg)?'★':'☆'}</span>`).join('')}<span class="rev-card-score">${avg.toFixed(1)} (${revs.length})</span></div>`:''})()}
+      ${thumbs?`<div class="c-thumbs">${thumbs}</div>`:''}
+      <div class="card-foot">
+        <div class="c-price">${l.price} <span>USD</span></div>
+        <button class="card-cta" onclick="event.stopPropagation();openDetail(${idx})">Смотреть →</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── DETAIL ────────────────────────────────────────────────────────
+let curL=null;
+function openDetail(idx){
+  curL=LS[idx];const l=curL;const col=l.color||COLS[0];
+  const sAv=document.getElementById('shAv');
+  if(l.avatarUrl){sAv.innerHTML=`<img src="${l.avatarUrl}" onerror="this.parentNode.style.background='${col}';this.parentNode.innerHTML='${gi(l.name)}'"/>`;sAv.style.background='transparent';}
+  else{sAv.innerHTML=gi(l.name);sAv.style.background=col;}
+  document.getElementById('shName').textContent=l.name;
+  document.getElementById('shCat').textContent=cl(l.cat);
+  document.getElementById('shPrice').textContent=l.price+' USD';
+  document.getElementById('shDesc').textContent=l.desc||t('nodesc');
+  document.getElementById('shBadges').innerHTML=[
+    l.monetized?`<div class="badge b-green" style="font-size:12px;padding:5px 11px">✓ ${t('mon_yes')}</div>`:'',
+    l.nostrikes?`<div class="badge b-blue" style="font-size:12px;padding:5px 11px">✓ ${t('no_str')}</div>`:'',
+    l.active?`<div class="badge b-gold" style="font-size:12px;padding:5px 11px">⚡ ${t('active')}</div>`:'',
+  ].join('');
+  const cos=(l.countries||[]).filter(Boolean);
+  document.getElementById('shStats').innerHTML=`
+    <div class="shst"><div class="shst-v">${fmt(l.subs)}</div><div class="shst-l">${t('stsubs')}</div></div>
+    <div class="shst"><div class="shst-v">${fmt(l.views30)}</div><div class="shst-l">${t('stv30')}</div></div>
+    ${l.income?`<div class="shst"><div class="shst-v">~$${l.income}</div><div class="shst-l">${t('stinc')}</div></div>`:''}
+    <div class="shst"><div class="shst-v">${l.price}$</div><div class="shst-l">${t('stpr')}</div></div>
+    ${cos.length?`<div class="shst" style="flex:2"><div class="shst-v" style="font-size:16px;letter-spacing:0">${cos.map(c=>{const m=c.match(/^(\S+)\s*(.*)/);const flag=m?m[1]:c;const name=m?m[2]:'';return flag+'<span style="font-size:12px;margin-left:3px">'+name+'</span>';}).join('<span style="color:var(--text3);margin:0 6px">·</span>')}</div><div class="shst-l">${t('staud')}</div></div>`:''}`;  document.getElementById('shYt').innerHTML=l.ytLink?`<a class="yt-pill" href="${l.ytLink}" target="_blank" rel="noopener"><span>📺</span><span>${l.ytLink}</span></a>`:'';
+  const gal=document.getElementById('shGal');
+  if(l.screens?.length){const s=l.screens;gal.innerHTML=`<div class="sh-lbl" style="margin-bottom:9px">${t('lgal')}</div><img id="gM" class="gal-main" src="${s[0]}" onclick='openFs(${JSON.stringify(s)},0)'/><div class="gal-row" id="gR">${s.map((x,i)=>`<img src="${x}" class="${i===0?'on':''}" onclick="swGal(${i})"/>`).join('')}</div>`;}
+  else gal.innerHTML=`<div class="no-scr">${t('noscr')}</div>`;
+  document.getElementById('detBd').classList.add('open');document.body.style.overflow='hidden';
+  renderReviews(l.name);
+}
+function swGal(i){if(!curL)return;const s=curL.screens;document.getElementById('gM').src=s[i];document.getElementById('gM').onclick=()=>openFs(s,i);document.querySelectorAll('#gR img').forEach((e,j)=>e.classList.toggle('on',j===i));}
+function closeDetail(){document.getElementById('detBd').classList.remove('open');document.body.style.overflow='';}
+function goTg(){window.open('https://t.me/dmytroseller','_blank','noopener');}
+
+let fsI=[],fsN=0;
+function openFs(imgs,idx){fsI=Array.isArray(imgs)?imgs:JSON.parse(imgs);fsN=idx;document.getElementById('fsImg').src=fsI[fsN];document.getElementById('fsCnt').textContent=(fsN+1)+'/'+fsI.length;document.getElementById('fs').classList.add('open');document.body.style.overflow='hidden';}
+function closeFs(){document.getElementById('fs').classList.remove('open');document.body.style.overflow='';}
+function fsNav(d){fsN=(fsN+d+fsI.length)%fsI.length;document.getElementById('fsImg').src=fsI[fsN];document.getElementById('fsCnt').textContent=(fsN+1)+'/'+fsI.length;}
+function fsBg(e){if(e.target===document.getElementById('fs'))closeFs();}
+document.addEventListener('keydown',e=>{if(!document.getElementById('fs').classList.contains('open'))return;if(e.key==='ArrowRight')fsNav(1);if(e.key==='ArrowLeft')fsNav(-1);if(e.key==='Escape')closeFs();});
+function bdc(e,id,fn){if(e.target===document.getElementById(id))fn();}
+
+// ── REVIEWS ───────────────────────────────────────────────────────
+let REVIEWS = JSON.parse(localStorage.getItem('nn_reviews') || '{}');
+let curStarPick = 0;
+
+function saveReviews() {
+  try { localStorage.setItem('nn_reviews', JSON.stringify(REVIEWS)); } catch(e) {}
+}
+
+function starsHtml(score, cls) {
+  return [1,2,3,4,5].map(i=>`<span class="star${i<=Math.round(score)?' filled':''}">${i<=Math.round(score)?'★':'☆'}</span>`).join('');
+}
+
+function renderReviews(channelName) {
+  const revs = REVIEWS[channelName] || [];
+  curStarPick = 0;
+  document.getElementById('revName').value = '';
+  document.getElementById('revText').value = '';
+  document.querySelectorAll('.sp').forEach(s => s.classList.remove('on'));
+
+  // Summary
+  const sumEl = document.getElementById('revSummary');
+  if (revs.length > 0) {
+    const avg = revs.reduce((a,r)=>a+r.score,0) / revs.length;
+    const bars = [5,4,3,2,1].map(s=>{
+      const cnt = revs.filter(r=>r.score===s).length;
+      const pct = Math.round(cnt/revs.length*100);
+      return `<div class="rev-bar-row"><span class="rev-bar-lbl">${s}</span><div class="rev-bar-track"><div class="rev-bar-fill" style="width:${pct}%"></div></div></div>`;
+    }).join('');
+    sumEl.style.display = 'flex';
+    sumEl.innerHTML = `<div style="text-align:center;flex-shrink:0"><div class="rev-big-score">${avg.toFixed(1)}</div><div class="rev-stars-big">${starsHtml(avg,'')}</div><div class="rev-count">${revs.length} отзыв${revs.length===1?'':revs.length<5?'а':'ов'}</div></div><div class="rev-bars">${bars}</div>`;
+  } else {
+    sumEl.style.display = 'none';
+  }
+
+  // List
+  const listEl = document.getElementById('revList');
+  if (!revs.length) {
+    listEl.innerHTML = `<div class="rev-empty">Пока нет отзывов. Будьте первым!</div>`;
+    return;
+  }
+  listEl.innerHTML = [...revs].reverse().map(r=>`
+    <div class="rev-item">
+      <div class="rev-item-head">
+        <div>
+          <div class="rev-item-name">${r.name||'Аноним'}</div>
+          <div class="rev-item-date">${r.date}</div>
+        </div>
+        <div class="rev-item-stars">${starsHtml(r.score,'')}</div>
+      </div>
+      ${r.text?`<div class="rev-item-text">${r.text}</div>`:''}
+    </div>`).join('');
+}
+
+// Star picker interactivity
+document.getElementById('starPicker').addEventListener('mouseover', e=>{
+  if (!e.target.classList.contains('sp')) return;
+  const v = +e.target.dataset.v;
+  document.querySelectorAll('.sp').forEach(s=> s.classList.toggle('on', +s.dataset.v <= v));
+});
+document.getElementById('starPicker').addEventListener('mouseleave', ()=>{
+  document.querySelectorAll('.sp').forEach(s=> s.classList.toggle('on', +s.dataset.v <= curStarPick));
+});
+document.getElementById('starPicker').addEventListener('click', e=>{
+  if (!e.target.classList.contains('sp')) return;
+  curStarPick = +e.target.dataset.v;
+  document.querySelectorAll('.sp').forEach(s=> s.classList.toggle('on', +s.dataset.v <= curStarPick));
+});
+
+function submitReview() {
+  if (!curStarPick) { alert('Пожалуйста, выберите оценку'); return; }
+  if (!curL) return;
+  const name = document.getElementById('revName').value.trim();
+  const text = document.getElementById('revText').value.trim();
+  const now = new Date();
+  const date = now.toLocaleDateString('ru-RU', {day:'numeric',month:'long',year:'numeric'});
+  if (!REVIEWS[curL.name]) REVIEWS[curL.name] = [];
+  REVIEWS[curL.name].push({ score: curStarPick, name, text, date });
+  saveReviews();
+  renderReviews(curL.name);
+  renderCards();
+}
+
+function getAvgScore(channelName) {
+  const revs = REVIEWS[channelName] || [];
+  if (!revs.length) return 0;
+  return revs.reduce((a,r)=>a+r.score,0) / revs.length;
+}
+
+// ── INIT ──────────────────────────────────────────────────────────
+applyT();updHero();renderCtrFilter();
+</script>
+</body>
+</html>
