@@ -216,6 +216,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
 .b-green{background:var(--greenbg);color:var(--green);}
 .b-blue{background:var(--accentbg);color:var(--accent);}
 .b-gold{background:var(--goldbg);color:var(--gold);}
+.b-red{background:rgba(255,59,48,.12);color:#ff3b30;}
 
 .c-stats{display:flex;gap:8px;padding:0 18px 14px;}
 .cst{flex:1;background:var(--bg3);border-radius:14px;padding:12px 14px;}
@@ -1041,6 +1042,7 @@ function renderForm(){
         <div class="fg"><label>${t('fstr')}</label><select id="fStr"><option value="1">${t('yes')}</option><option value="0">${t('no')}</option></select></div>
         <div class="fg"><label>${t('fact')}</label><select id="fAct"><option value="1">${t('yes')}</option><option value="0">${t('no')}</option></select></div>
       </div>
+      <div class="fg" style="margin-top:8px"><label style="color:#ff3b30;font-weight:700">⚠ Накрутка</label><select id="fCheat" style="border-color:rgba(255,59,48,.3)"><option value="0">Нет (органический)</option><option value="1">Да (накручен)</option></select></div>
     </div>
     <div class="fsec"><div class="fsec-t">06 — Описание</div><div class="fg"><textarea id="fDsc" placeholder="${t('fdph')}"></textarea></div></div>
     <div class="fsec"><div class="fsec-t">07 — Скриншоты</div>
@@ -1089,10 +1091,11 @@ function pubCh(){
   const cat=document.getElementById('fCat')?.value,price=parseFloat(document.getElementById('fPr')?.value);
   const subs=parseInt(document.getElementById('fSb')?.value)||0,views30=parseInt(document.getElementById('fV30')?.value)||0,income=parseFloat(document.getElementById('fInc')?.value)||0;
   const monetized=document.getElementById('fMon')?.value==='1',nostrikes=document.getElementById('fStr')?.value==='1',active=document.getElementById('fAct')?.value==='1';
+  const cheated=document.getElementById('fCheat')?.value==='1';
   const coData=document.getElementById('fCoData');const countries=coData?JSON.parse(coData.dataset.sel||'[]'):[];
   const tg=document.getElementById('fTg')?.value.trim()||'@dmytroseller',desc=document.getElementById('fDsc')?.value.trim(),ytLink=document.getElementById('fUrl')?.value.trim();
   if(!name||!cat||!price){alert(t('req'));return;}
-  const newCh = {name,cat,price:Math.round(price),subs,views30,income,monetized,nostrikes,active,countries,tg,ytLink,avatarUrl:ytAv,desc:desc||t('nodesc'),screens:[...pScr],color:COLS[Math.floor(Math.random()*COLS.length)],ok:true};
+  const newCh = {name,cat,price:Math.round(price),subs,views30,income,monetized,nostrikes,active,cheated,countries,tg,ytLink,avatarUrl:ytAv,desc:desc||t('nodesc'),screens:[...pScr],color:COLS[Math.floor(Math.random()*COLS.length)],ok:true};
   LS.unshift(newCh);
   if(!CATS_BASE.includes(cat)&&!xC.includes(cat))xC.push(cat);
   renderCatChips();renderCards();initPrSlider();
@@ -1162,6 +1165,7 @@ function renderCards(){
       <div class="c-badges">
         ${l.monetized?`<div class="badge b-green">✓ ${t('mon_yes')}</div>`:''}
         ${l.nostrikes?`<div class="badge b-blue">✓ ${t('no_str')}</div>`:''}
+        ${l.cheated?`<div class="badge b-red">⚠ Накручен</div>`:''}
       </div>
       <div class="c-stats">
         <div class="cst"><span class="cst-icon icon-subs">👥</span><div class="cst-v">${fmt(l.subs)}</div><div class="cst-l">${t('stsubs')}</div></div>
@@ -1191,6 +1195,7 @@ function openDetail(idx){
   document.getElementById('shBadges').innerHTML=[
     l.monetized?`<div class="badge b-green" style="font-size:12px;padding:5px 11px">✓ ${t('mon_yes')}</div>`:'',
     l.nostrikes?`<div class="badge b-blue" style="font-size:12px;padding:5px 11px">✓ ${t('no_str')}</div>`:'',
+    l.cheated?`<div class="badge b-red" style="font-size:12px;padding:5px 11px">⚠ Накручен</div>`:'',
   ].join('');
   const cos=(l.countries||[]).filter(Boolean);
   document.getElementById('shStats').innerHTML=`
