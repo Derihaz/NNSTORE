@@ -1107,10 +1107,10 @@ function renderCards(){
   const grid=document.getElementById('cardsGrid');if(!grid)return;
 
   let items=LS.filter(l=>{
-    if(!l.ok)return false;
+    if(!l.ok && l.ok !== undefined)return false;
     if(activeCatF!=='all'&&l.cat!==activeCatF)return false;
     if(q&&!l.name.toLowerCase().includes(q)&&!l.cat.toLowerCase().includes(q)&&!l.desc.toLowerCase().includes(q))return false;
-    if(prMaxF<999999&&l.price>prMaxF)return false;
+    if(prMaxF<999999&&(l.price||0)>prMaxF)return false;
     if(l.subs<subMinV||l.subs>subMaxV)return false;
     if(fToggles.monetized&&!l.monetized)return false;
     if(fToggles.nostrikes&&!l.nostrikes)return false;
