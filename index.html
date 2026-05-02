@@ -1251,11 +1251,18 @@ async function loadFromFirebase() {
 // Сохранить канал в Firebase
 async function saveToFirebase(ch) {
   try {
-    const doc = await db.collection(COLL).add({...ch, createdAt: firebase.firestore.FieldValue.serverTimestamp()});
+    // Убираем тяжёлые base64 скрины — Firebase ограничен 1MB на документ
+    const {screens, _id, ...chClean} = ch;
+    const doc = await db.collection(COLL).add({
+      ...chClean,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
     ch._id = doc.id;
+    console.log('Saved to Firebase:', doc.id);
     return true;
   } catch(e) {
-    console.log('Firebase save error:', e);
+    console.error('Firebase save error:', e);
+    alert('Ошибка Firebase: ' + e.message);
     return false;
   }
 }
