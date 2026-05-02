@@ -1238,10 +1238,16 @@ async function loadFromFirebase() {
   try {
     const snap = await db.collection(COLL).get();
     if (!snap.empty) {
-      LS = snap.docs.map(d => ({...d.data(), _id: d.id, ok: true}));
+      LS = snap.docs.map(d => {
+        const data = d.data();
+        return {...data, _id: d.id, ok: true};
+      });
+      console.log('Loaded', LS.length, 'channels from Firebase:', LS.map(l=>l.name));
+    } else {
+      console.log('Firebase empty');
     }
   } catch(e) {
-    console.log('Firebase load error:', e);
+    console.error('Firebase load error:', e);
   }
   renderCards();
   renderCatChips();
