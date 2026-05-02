@@ -1281,6 +1281,11 @@ async function deleteFromFirebase(id) {
     console.log('Firebase delete error:', e);
   }
 }
+
+// Запуск — вызываем после того как Firebase готов
+applyT();
+renderCtrFilter();
+loadFromFirebase();
 </script>
 </body>
 </html>
