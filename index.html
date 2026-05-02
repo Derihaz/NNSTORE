@@ -370,6 +370,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
 .citem-meta{font-size:11px;color:var(--text3);}
 .delbtn{font-size:11px;color:#ff3b30;background:rgba(255,59,48,.1);border:1px solid rgba(255,59,48,.2);border-radius:8px;padding:5px 11px;cursor:pointer;font-family:inherit;font-weight:600;flex-shrink:0;transition:all .2s;}
 .delbtn:hover{background:rgba(255,59,48,.2);}
+.editbtn{font-size:11px;color:var(--accent);background:var(--accentbg);border:1px solid rgba(0,122,255,.2);border-radius:8px;padding:5px 11px;cursor:pointer;font-family:inherit;font-weight:600;flex-shrink:0;transition:all .2s;}
+.editbtn:hover{background:rgba(0,122,255,.18);}
 .empty-adm{padding:60px;text-align:center;color:var(--text3);font-size:13px;}
 
 /* COUNTRY PICKER MODAL */
@@ -1109,9 +1111,104 @@ function pubCh(){
 function renderList(){
   const items=LS.filter(l=>l.ok);const b=document.getElementById('admBody');
   if(!items.length){b.innerHTML=`<div class="empty-adm">${t('empty')}</div>`;return;}
-  b.innerHTML=`<div class="fc">${items.map(l=>{const idx=LS.indexOf(l);const col=l.color||COLS[0];const avH=l.avatarUrl?`<div class="citem-av"><img src="${l.avatarUrl}" onerror="this.parentNode.style.background='${col}';this.parentNode.innerHTML='${gi(l.name)}'"/></div>`:`<div class="citem-av" style="background:${col}">${gi(l.name)}</div>`;return `<div class="citem">${avH}<div class="citem-info"><div class="citem-name">${l.name}</div><div class="citem-meta">${cl(l.cat)} · ${l.price} USD · ${fmt(l.subs)} подп.${l.income?` · ~$${l.income}/мес`:''}</div></div><button class="delbtn" onclick="delL(${idx})">Удалить</button></div>`;}).join('')}</div>`;
+  b.innerHTML=`<div class="fc">${items.map(l=>{const idx=LS.indexOf(l);const col=l.color||COLS[0];const avH=l.avatarUrl?`<div class="citem-av"><img src="${l.avatarUrl}" onerror="this.parentNode.style.background='${col}';this.parentNode.innerHTML='${gi(l.name)}'"/></div>`:`<div class="citem-av" style="background:${col}">${gi(l.name)}</div>`;return `<div class="citem">${avH}<div class="citem-info"><div class="citem-name">${l.name}</div><div class="citem-meta">${cl(l.cat)} · ${l.price} USD · ${fmt(l.subs)} подп.${l.income?` · ~$${l.income}/мес`:''}</div></div><div style="display:flex;gap:6px"><button class="editbtn" onclick="editL(${idx})">✏️ Изменить</button><button class="delbtn" onclick="delL(${idx})">Удалить</button></div></div>`;}).join('')}</div>`;
 }
 function delL(i){if(confirm('Удалить «'+LS[i].name+'»?')){const id=LS[i]._id;LS.splice(i,1);renderList();renderCards();renderCatChips();if(id)deleteFromFirebase(id);}}
+
+let editIdx=-1;
+function editL(idx){
+  editIdx=idx;
+  const l=LS[idx];
+  const catOpts=CATS_BASE.map(c=>`<option value="${c}"${l.cat===c?' selected':''}>${cl(c)}</option>`).join('');
+  const selCos=l.countries||[];
+  const ctrBtns=CTRS.map(c=>{
+    const key=c.f+cn(c);
+    const sel=selCos.some(x=>x.startsWith(c.f));
+    return `<button onclick="togEditCtr(this,'${c.f}')" data-flag="${c.f}" data-name="${cn(c)}" class="ectr-btn${sel?' sel':''}" style="padding:7px 10px;border-radius:10px;font-size:13px;border:1.5px solid ${sel?'var(--accent)':'var(--border2)'};background:${sel?'var(--accentbg)':'var(--bg3)'};color:${sel?'var(--accent)':'var(--text2)'};cursor:pointer;transition:all .15s;font-family:inherit;">${c.f} ${cn(c)}</button>`;
+  }).join('');
+  const overlay=document.createElement('div');
+  overlay.id='editOverlay';
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(16px);z-index:500;overflow-y:auto;padding:20px 16px;display:flex;align-items:flex-start;justify-content:center;';
+  overlay.innerHTML=`<div style="background:var(--bg2);border:1px solid var(--border2);border-radius:24px;max-width:560px;width:100%;padding:24px;box-shadow:0 32px 80px rgba(0,0,0,.6);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div style="font-size:17px;font-weight:800;">✏️ Редактировать канал</div>
+      <button onclick="closeEdit()" style="width:32px;height:32px;border-radius:50%;border:none;background:var(--bg4);color:var(--text);font-size:16px;cursor:pointer;">✕</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="fg"><label>Название</label><input id="eNm" type="text" value="${l.name}"/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="fg"><label>Категория</label><select id="eCat"><option value="">${t('fcatph')}</option>${catOpts}<option value="Other"${l.cat==='Other'?' selected':''}>Другое</option></select></div>
+        <div class="fg"><label>Цена (USD)</label><input id="ePr" type="number" value="${l.price}"/></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="fg"><label>Подписчиков</label><input id="eSb" type="number" value="${l.subs||0}"/></div>
+        <div class="fg"><label>Просмотров/30д</label><input id="eV30" type="number" value="${l.views30||0}"/></div>
+      </div>
+      <div class="fg"><label>Доход/мес (~USD)</label><input id="eInc" type="number" value="${l.income||0}"/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+        <div class="fg"><label>Монетизация</label><select id="eMon"><option value="1"${l.monetized?' selected':''}>Да</option><option value="0"${!l.monetized?' selected':''}>Нет</option></select></div>
+        <div class="fg"><label>Без страйков</label><select id="eStr"><option value="1"${l.nostrikes?' selected':''}>Да</option><option value="0"${!l.nostrikes?' selected':''}>Нет</option></select></div>
+        <div class="fg"><label>Активный</label><select id="eAct"><option value="1"${l.active?' selected':''}>Да</option><option value="0"${!l.active?' selected':''}>Нет</option></select></div>
+      </div>
+      <div class="fg"><label style="color:#ff3b30;font-weight:700">⚠ Накрутка</label><select id="eCheat" style="border-color:rgba(255,59,48,.3)"><option value="0"${!l.cheated?' selected':''}>Нет (органический)</option><option value="1"${l.cheated?' selected':''}>Да (накручен)</option></select></div>
+      <div class="fg">
+        <label>🌍 Страны аудитории <span style="font-size:11px;color:var(--text3);font-weight:400">(до 3)</span></label>
+        <div id="eCtrBtns" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">${ctrBtns}</div>
+      </div>
+      <div class="fg"><label>Описание</label><textarea id="eDsc" style="min-height:80px;">${l.desc||''}</textarea></div>
+      <div class="fg"><label>Telegram</label><input id="eTg" type="text" value="${l.tg||'@dmytroseller'}"/></div>
+      <button onclick="saveEdit()" style="width:100%;padding:14px;border-radius:14px;background:var(--accent);color:#fff;border:none;font-size:15px;font-weight:700;cursor:pointer;margin-top:4px;">💾 Сохранить изменения</button>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+  document.body.style.overflow='hidden';
+}
+
+function togEditCtr(btn,flag){
+  const btns=document.querySelectorAll('#eCtrBtns .ectr-btn');
+  const selCount=[...btns].filter(b=>b.classList.contains('sel')).length;
+  if(btn.classList.contains('sel')){
+    btn.classList.remove('sel');
+    btn.style.borderColor='var(--border2)';btn.style.background='var(--bg3)';btn.style.color='var(--text2)';
+  } else {
+    if(selCount>=3){alert('Максимум 3 страны');return;}
+    btn.classList.add('sel');
+    btn.style.borderColor='var(--accent)';btn.style.background='var(--accentbg)';btn.style.color='var(--accent)';
+  }
+}
+
+function closeEdit(){
+  const ov=document.getElementById('editOverlay');if(ov)ov.remove();
+  document.body.style.overflow='';
+}
+
+async function saveEdit(){
+  const l=LS[editIdx];
+  if(!l)return;
+  l.name=document.getElementById('eNm').value.trim()||l.name;
+  l.cat=document.getElementById('eCat').value||l.cat;
+  l.price=Math.round(parseFloat(document.getElementById('ePr').value)||l.price);
+  l.subs=parseInt(document.getElementById('eSb').value)||0;
+  l.views30=parseInt(document.getElementById('eV30').value)||0;
+  l.income=parseFloat(document.getElementById('eInc').value)||0;
+  l.monetized=document.getElementById('eMon').value==='1';
+  l.nostrikes=document.getElementById('eStr').value==='1';
+  l.active=document.getElementById('eAct').value==='1';
+  l.cheated=document.getElementById('eCheat').value==='1';
+  l.desc=document.getElementById('eDsc').value.trim();
+  l.tg=document.getElementById('eTg').value.trim();
+  const selBtns=[...document.querySelectorAll('#eCtrBtns .ectr-btn.sel')];
+  l.countries=selBtns.map(b=>b.dataset.flag+b.dataset.name);
+  closeEdit();
+  renderList();renderCards();renderCatChips();
+  if(l._id){
+    try{
+      const {screens,_id,...clean}=l;
+      await db.collection('channels').doc(_id).update({...clean});
+      alert('Сохранено ✓');
+    }catch(e){alert('Ошибка Firebase: '+e.message);}
+  }
+}
 
 // ── DATA ──────────────────────────────────────────────────────────
 const COLS=['#007aff','#34c759','#ff9500','#af52de','#ff3b30','#5ac8fa','#ffcc00','#00c7be'];
