@@ -28,7 +28,7 @@
 .light .card{box-shadow:0 2px 12px rgba(0,0,0,.06);border-color:#ebebed;}
 .light .card:hover{box-shadow:0 8px 32px rgba(0,0,0,.1),0 0 0 1.5px rgba(0,122,255,.2);}
 .light .sheet{box-shadow:0 20px 60px rgba(0,0,0,.15);}
-.light .hero{text-align:center;padding:48px 32px 36px;background:radial-gradient(ellipse 70% 50% at 50% -10%,rgba(0,122,255,.07) 0%,transparent 70%);}
+.light .hero{text-align:center;padding:28px 32px 24px;background:none;}
 .light .btn-s{border-color:#d8d8da;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.06);}
 .light .cst{background:#f7f7f8;}
 .light .c-stats{background:#ebebed;}
@@ -69,7 +69,12 @@ nav{
   border-radius:var(--r3);padding:5px 14px;font-size:11px;font-weight:700;
   color:var(--gold);letter-spacing:.03em;margin-bottom:20px;
 }
-.hero h1{font-size:clamp(26px,5vw,52px);font-weight:800;letter-spacing:1px;line-height:1.08;margin-bottom:0;}
+.hero h1{font-size:clamp(24px,4vw,44px);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:10px;}
+.hero-sub{font-size:13px;color:var(--text3);margin-bottom:0;letter-spacing:.01em;}
+.hero-stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;}
+.hs{text-align:center;}
+.hs-v{font-size:26px;font-weight:800;letter-spacing:-1px;line-height:1;}
+.hs-l{font-size:11px;color:var(--text3);margin-top:4px;font-weight:500;}
 .hero h1 em{font-style:normal;color:var(--accent);}
 .hero-sub{font-size:15px;color:var(--text2);max-width:440px;margin:0 auto 32px;line-height:1.6;letter-spacing:-.1px;}
 .hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
@@ -196,7 +201,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
 .card:hover .card-cta{background:var(--accent);color:#fff;border-color:var(--accent);}
 
 .card-head{padding:18px 18px 12px;display:flex;align-items:center;gap:12px;}
-.c-av{width:48px;height:48px;border-radius:14px;overflow:hidden;flex-shrink:0;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.25);}
+.c-av{width:48px;height:48px;border-radius:14px;overflow:hidden;flex-shrink:0;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.25);flex-shrink:0;}
 .c-av img{width:100%;height:100%;object-fit:cover;display:block;}
 .c-name{font-size:14px;font-weight:700;color:var(--text);letter-spacing:-.2px;margin-bottom:3px;}
 .c-cat{display:inline-block;font-size:10px;font-weight:700;color:var(--accent);background:var(--accentbg);padding:2px 8px;border-radius:var(--r3);text-transform:uppercase;letter-spacing:.05em;}
@@ -477,10 +482,9 @@ footer{padding:22px 32px;border-top:1px solid var(--border);text-align:center;fo
   .nav-lang{font-size:11px;padding:5px 8px;}
   .nav-theme{width:32px;height:32px;font-size:13px;}
 
-  .hero{padding:32px 16px 28px;}
-  .hero h1{font-size:24px;letter-spacing:-1px;}
-  .hero-btns{flex-direction:column;align-items:stretch;gap:8px;padding:0 4px;}
-  .btn-p{padding:14px;font-size:15px;border-radius:16px;}
+  .hero{padding:16px 16px 12px;}
+  .hero h1{font-size:20px;letter-spacing:-.5px;margin-bottom:6px;}
+  .hero-sub{font-size:11px;margin-bottom:0;}
 
   /* Toolbar - search full width, filters row below */
   .toolbar{padding:12px 12px 0;gap:8px;flex-wrap:wrap;}
@@ -502,9 +506,9 @@ footer{padding:22px 32px;border-top:1px solid var(--border);text-align:center;fo
   .tgl-row{padding:10px 0;}
   .tgl-lbl{font-size:14px;}
 
-  /* Grid */
-  .grid-wrap{padding:12px 12px 0;}
+  .grid-wrap{padding:12px 12px 0;overflow:hidden;}
   .grid{grid-template-columns:1fr;gap:12px;}
+  .card{max-width:100%;overflow:hidden;}
 
   /* Cards mobile */
   .card{border-radius:18px;}
@@ -579,7 +583,8 @@ footer{padding:22px 32px;border-top:1px solid var(--border);text-align:center;fo
 
 <!-- HERO -->
 <div class="hero" id="heroTop">
-  <h1 style="letter-spacing:-.5px"><span data-t="h1a">Готовые YouTube каналы</span><br><em data-t="h1b">с монетизацией</em></h1>
+  <h1><span data-t="h1a">Готовые YouTube каналы</span><br><em data-t="h1b">с монетизацией</em></h1>
+  <p class="hero-sub">Реальная аудитория · Чистая история · Быстрая передача</p>
 </div>
 
 <!-- TOOLBAR -->
@@ -876,7 +881,7 @@ let fToggles={monetized:false,nostrikes:false,active:false};
 let prMaxF=999999;
 let panelOpen=false;
 
-function getMaxPrice(){return Math.max(...LS.filter(l=>l.ok).map(l=>l.price),500);}
+function getMaxPrice(){return Math.max(...LS.map(l=>l.price||0),500);}
 function initPrSlider(){
   const sl=document.getElementById('prSlider');if(!sl)return;
   const mx=getMaxPrice();
@@ -898,7 +903,7 @@ function updateFilterBtn(){
 
 function onPrSlide(v){
   const mx=getMaxPrice();
-  prMaxF=parseInt(v)>=mx?999999:parseInt(v);
+  const pv=parseInt(v);prMaxF=(pv>=mx||pv<=0)?999999:pv;
   const el=document.getElementById('prMaxLbl');
   el.textContent=prMaxF>=999999?'до любой':('до $'+v);
   renderCards();
@@ -1105,7 +1110,7 @@ const LS_DEFAULT=[
   {name:'SportPro',cat:'Sport',price:130,subs:5200,views30:32000,income:12,monetized:false,nostrikes:true,active:true,countries:['🇷🇺Россия'],tg:'@dmytroseller',ytLink:'',avatarUrl:'',desc:'Спортивная аналитика. Без монетизации, идеально для нового бренда.',screens:[],color:'#ff3b30',ok:true},
 ];
 
-function updHero(){const el=document.getElementById('hsCount');if(el)el.textContent=LS.filter(l=>l.ok).length;}
+function updHero(){const el=document.getElementById('hsCount');if(el)el.textContent=LS.length;}
 
 function renderCards(){
   const q=document.getElementById('srchInp')?.value.toLowerCase()||'';
@@ -1132,7 +1137,7 @@ function renderCards(){
   else if(s==='id')items.sort((a,b)=>(b.income||0)-(a.income||0));
 
   const meta=document.getElementById('gridMeta');
-  if(meta)meta.textContent=items.length+' '+(lang==='ru'?'каналов':lang==='en'?'channels':lang==='uk'?'каналів':'каналов');
+  if(meta)meta.textContent=items.length+' '+(lang==='ru'?'каналов':lang==='en'?'channels':lang==='uk'?'каналів':'каналов');updHero();
 
   if(!items.length){grid.innerHTML=`<div class="grid-empty">${t('empty')}</div>`;return;}
   grid.innerHTML=items.map(l=>{
@@ -1150,7 +1155,7 @@ function renderCards(){
         <div class="cst"><span class="cst-icon icon-subs">👥</span><div class="cst-v">${fmt(l.subs)}</div><div class="cst-l">${t('stsubs')}</div></div>
         <div class="cst"><span class="cst-icon icon-views">👁</span><div class="cst-v">${fmt(l.views30)}</div><div class="cst-l">${t('stviews')}</div></div>
       </div>
-      ${cos.length?`<div class="c-countries">${cos.map((c,i)=>{const m=c.match(/^(\S+)\s*(.*)/);const flag=m?m[1]:c;const name=m?m[2]:'';return `${i>0?'<span class="ctry-dot">·</span>':''}<span class="ctry">${flag}</span><span class="ctry-n">${name}</span>`;}).join('')}</div>`:''}
+      ${cos.length?`<div class="c-countries">${cos.map((c,i)=>{const parts=[...c];const flag=parts.slice(0,2).join('');const name=c.slice(flag.length).trim();return `${i>0?'<span class="ctry-dot">·</span>':''}<span class="ctry">${flag}</span><span class="ctry-n">${name}</span>`;}).join('')}</div>`:''}
       
       <div class="card-foot">
         <div class="c-price">$${l.price}</div>
