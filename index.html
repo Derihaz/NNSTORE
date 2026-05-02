@@ -13,7 +13,7 @@
   --green:#30d158;--greenbg:rgba(48,209,88,.1);
   --gold:#ffd60a;--goldbg:rgba(255,214,10,.08);
   --glass:rgba(255,255,255,.04);--glassborder:rgba(255,255,255,.06);
-  --r:18px;--r2:24px;--r3:50px;
+  --r:18px;--r2:32px;--r3:50px;
 }
 .light{
   --bg:#f0f0f5;--bg2:#ffffff;--bg3:#f8f8fb;--bg4:#ededf2;--bg5:#e2e2e8;
@@ -201,7 +201,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
   overflow:hidden;cursor:pointer;transition:all .25s;display:flex;flex-direction:column;
   position:relative;
 }
-.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.02) 0%,transparent 60%);pointer-events:none;border-radius:var(--r2);}
+.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.015) 0%,transparent 50%);pointer-events:none;}
 .card:hover{border-color:rgba(0,122,255,.35);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.5);}
 .card:hover .card-cta{background:var(--accent);color:#fff;border-color:var(--accent);}
 
@@ -516,7 +516,7 @@ footer{padding:22px 32px;border-top:1px solid var(--border);text-align:center;fo
   .card{max-width:100%;overflow:hidden;}
 
   /* Cards mobile */
-  .card{border-radius:18px;overflow:hidden;}
+  .card{border-radius:26px;overflow:hidden;}
   .card:hover{transform:none;box-shadow:none;}
   .card:active{transform:scale(0.98);}
   .card-head{padding:12px 12px 8px;gap:8px;overflow:hidden;}
