@@ -16,10 +16,10 @@
   --r:18px;--r2:24px;--r3:50px;
 }
 .light{
-  --bg:#f7f7f8;--bg2:#ffffff;--bg3:#f2f2f4;--bg4:#eaeaec;--bg5:#e0e0e2;
-  --border:#ebebed;--border2:#dedee0;
-  --text:#0a0a0a;--text2:#5a5a6a;--text3:#9a9aaa;--text4:#d0d0d8;
-  --glass:rgba(0,0,0,.04);--glassborder:rgba(0,0,0,.07);
+  --bg:#f0f0f5;--bg2:#ffffff;--bg3:#f8f8fb;--bg4:#ededf2;--bg5:#e2e2e8;
+  --border:#e4e4ea;--border2:#d8d8e0;
+  --text:#0a0a0a;--text2:#4a4a5a;--text3:#8a8a9a;--text4:#c8c8d8;
+  --glass:rgba(0,0,0,.03);--glassborder:rgba(0,0,0,.06);
   --green:#1a9e42;--greenbg:rgba(26,158,66,.09);
   --gold:#b8860b;--goldbg:rgba(184,134,11,.09);
   --accentbg:rgba(0,122,255,.07);
@@ -139,7 +139,7 @@ nav{
 .fp-group-title{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;}
 
 /* country checkboxes */
-.ctr-list{display:flex;flex-direction:column;gap:2px;}
+.ctr-list{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
 .ctr-item{display:flex;align-items:center;gap:10px;padding:8px 4px;cursor:pointer;min-height:44px;}
 .ctr-item:hover .ctr-chk{border-color:var(--accent);}
 .ctr-flag{font-size:18px;width:24px;}
@@ -201,7 +201,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
 .card:hover .card-cta{background:var(--accent);color:#fff;border-color:var(--accent);}
 
 .card-head{padding:18px 18px 12px;display:flex;align-items:center;gap:12px;}
-.c-av{width:48px;height:48px;border-radius:14px;overflow:hidden;flex-shrink:0;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.25);flex-shrink:0;}
+.c-av{width:48px;height:48px;border-radius:24%;overflow:hidden;flex-shrink:0;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.25);}
 .c-av img{width:100%;height:100%;object-fit:cover;display:block;}
 .c-name{font-size:14px;font-weight:700;color:var(--text);letter-spacing:-.2px;margin-bottom:3px;}
 .c-cat{display:inline-block;font-size:10px;font-weight:700;color:var(--accent);background:var(--accentbg);padding:2px 8px;border-radius:var(--r3);text-transform:uppercase;letter-spacing:.05em;}
@@ -506,28 +506,28 @@ footer{padding:22px 32px;border-top:1px solid var(--border);text-align:center;fo
   .tgl-row{padding:10px 0;}
   .tgl-lbl{font-size:14px;}
 
-  .grid-wrap{padding:12px 12px 0;overflow:hidden;}
-  .grid{grid-template-columns:1fr;gap:12px;}
+  .grid-wrap{padding:12px 8px 0;overflow:hidden;}
+  .grid{grid-template-columns:1fr 1fr;gap:8px;}
   .card{max-width:100%;overflow:hidden;}
 
   /* Cards mobile */
   .card{border-radius:18px;}
   .card:hover{transform:none;box-shadow:none;}
   .card:active{transform:scale(0.98);}
-  .card-head{padding:16px 16px 12px;gap:12px;}
-  .c-av{width:48px;height:48px;font-size:15px;}
-  .c-name{font-size:16px;}
-  .c-badges{padding:0 16px 12px;}
-  .badge{padding:5px 10px;font-size:11px;}
-  .c-stats{padding:0 16px 14px;gap:8px;}
-  .cst{padding:13px 14px;border-radius:13px;}
-  .cst-icon{font-size:17px;margin-bottom:5px;}
-  .cst-v{font-size:19px;}
-  .cst-l{font-size:10px;}
-  .c-countries{padding:0 16px 10px;}
-  .card-foot{padding:0 16px 16px;}
-  .c-price{font-size:22px;}
-  .card-cta{padding:11px 18px;font-size:14px;border-radius:13px;}
+  .card-head{padding:12px 12px 8px;gap:8px;}
+  .c-av{width:38px;height:38px;font-size:12px;}
+  .c-name{font-size:13px;}
+  .c-badges{padding:0 10px 8px;gap:3px;}
+  .badge{padding:3px 7px;font-size:10px;}
+  .c-stats{padding:0 10px 10px;gap:5px;}
+  .cst{padding:9px 10px;border-radius:10px;}
+  .cst-icon{font-size:14px;margin-bottom:3px;}
+  .cst-v{font-size:14px;}
+  .cst-l{font-size:9px;}
+  .c-countries{padding:0 10px 6px;}
+  .card-foot{padding:0 10px 12px;}
+  .c-price{font-size:17px;}
+  .card-cta{padding:7px 10px;font-size:11px;border-radius:10px;}
 
   /* Detail sheet - full screen on mobile */
   .backdrop{padding:0;}
@@ -583,8 +583,7 @@ footer{padding:22px 32px;border-top:1px solid var(--border);text-align:center;fo
 
 <!-- HERO -->
 <div class="hero" id="heroTop">
-  <h1><span data-t="h1a">Готовые YouTube каналы</span><br><em data-t="h1b">с монетизацией</em></h1>
-  <p class="hero-sub">Реальная аудитория · Чистая история · Быстрая передача</p>
+  <h1><span data-t="h1a">YouTube каналы</span><br><em data-t="h1b">на продажу</em></h1>
 </div>
 
 <!-- TOOLBAR -->
@@ -623,9 +622,9 @@ footer{padding:22px 32px;border-top:1px solid var(--border);text-align:center;fo
       <div class="fp-group-title" data-t="fg_price">Цена (USD)</div>
       <div class="sl-row"><span data-t="pr_from">от 0</span><span id="prMaxLbl">до любой</span></div>
       <input type="range" id="prSlider" min="0" max="1000" value="1000" oninput="onPrSlide(this.value)"/>
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <input style="flex:1;height:34px;padding:0 10px;background:var(--bg3);border:1px solid var(--border2);border-radius:9px;font-size:12px;font-family:inherit;color:var(--text);text-align:center" type="number" id="subMinInp" placeholder="Подп. от" oninput="renderCards()"/>
-        <input style="flex:1;height:34px;padding:0 10px;background:var(--bg3);border:1px solid var(--border2);border-radius:9px;font-size:12px;font-family:inherit;color:var(--text);text-align:center" type="number" id="subMaxInp" placeholder="до" oninput="renderCards()"/>
+      <div style="display:flex;gap:6px;margin-top:8px;max-width:100%;overflow:hidden;">
+        <input style="flex:1;min-width:0;height:36px;padding:0 8px;background:var(--bg3);border:1px solid var(--border2);border-radius:9px;font-size:12px;font-family:inherit;color:var(--text);text-align:center;width:50%;" type="number" id="subMinInp" placeholder="от" oninput="renderCards()"/>
+        <input style="flex:1;min-width:0;height:36px;padding:0 8px;background:var(--bg3);border:1px solid var(--border2);border-radius:9px;font-size:12px;font-family:inherit;color:var(--text);text-align:center;width:50%;" type="number" id="subMaxInp" placeholder="до" oninput="renderCards()"/>
       </div>
     </div>
     <!-- Params -->
@@ -785,6 +784,7 @@ footer{padding:22px 32px;border-top:1px solid var(--border);text-align:center;fo
       <div id="shDesc" class="sh-desc"></div>
       <div id="shYt"></div>
       <div id="shGal"></div>
+      <div id="shGalDots" style="display:flex;justify-content:center;gap:6px;margin-top:8px;"></div>
     </div>
   </div>
 </div>
@@ -1187,8 +1187,26 @@ function openDetail(idx){
     ${l.income?`<div class="shst"><div class="shst-v">~$${l.income}</div><div class="shst-l">${t('stinc')}</div></div>`:''}
     ${cos.length?`<div class="shst" style="flex:2"><div class="shst-v" style="font-size:16px;letter-spacing:0">${cos.map(c=>{const m=c.match(/^(\S+)\s*(.*)/);const flag=m?m[1]:c;const name=m?m[2]:'';return flag+'<span style="font-size:12px;margin-left:3px">'+name+'</span>';}).join('<span style="color:var(--text3);margin:0 6px">·</span>')}</div><div class="shst-l">${t('staud')}</div></div>`:''}`;  document.getElementById('shYt').innerHTML=l.ytLink?`<a class="yt-pill" href="${l.ytLink}" target="_blank" rel="noopener"><span>📺</span><span>${l.ytLink}</span></a>`:'';
   const gal=document.getElementById('shGal');
-  if(l.screens?.length){const s=l.screens;gal.innerHTML=`<div class="sh-lbl" style="margin-bottom:9px">${t('lgal')}</div><img id="gM" class="gal-main" src="${s[0]}" onclick='openFs(${JSON.stringify(s)},0)'/><div class="gal-row" id="gR">${s.map((x,i)=>`<img src="${x}" class="${i===0?'on':''}" onclick="swGal(${i})"/>`).join('')}</div>`;}
-  else gal.innerHTML=`<div class="no-scr">${t('noscr')}</div>`;
+  const dotsEl=document.getElementById('shGalDots');
+  if(l.screens?.length){
+    const s=l.screens;
+    let cur=0;
+    function renderGalSlide(){
+      gal.innerHTML=`<div style="position:relative;border-radius:16px;overflow:hidden;margin-bottom:4px;">
+        <img src="${s[cur]}" style="width:100%;border-radius:16px;display:block;cursor:zoom-in;" onclick='openFs(${JSON.stringify(s)},${cur})'/>
+        ${s.length>1?`<button onclick="prevSlide()" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);border:none;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;">‹</button>
+        <button onclick="nextSlide()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);border:none;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;">›</button>`:``}
+      </div>`;
+      dotsEl.innerHTML=s.map((_,i)=>`<div onclick="goSlide(${i})" style="width:${i===cur?'20':'7'}px;height:7px;border-radius:4px;background:${i===cur?'var(--accent)':'var(--bg5)'};cursor:pointer;transition:all .25s;"></div>`).join('');
+    }
+    window.prevSlide=()=>{cur=(cur-1+s.length)%s.length;renderGalSlide();};
+    window.nextSlide=()=>{cur=(cur+1)%s.length;renderGalSlide();};
+    window.goSlide=(i)=>{cur=i;renderGalSlide();};
+    renderGalSlide();
+  } else {
+    gal.innerHTML=`<div class="no-scr">${t('noscr')}</div>`;
+    dotsEl.innerHTML='';
+  }
   document.getElementById('detBd').classList.add('open');document.body.style.overflow='hidden';
 }
 function swGal(i){if(!curL)return;const s=curL.screens;document.getElementById('gM').src=s[i];document.getElementById('gM').onclick=()=>openFs(s,i);document.querySelectorAll('#gR img').forEach((e,j)=>e.classList.toggle('on',j===i));}
