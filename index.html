@@ -481,11 +481,11 @@ footer{padding:22px 32px;border-top:1px solid var(--border);text-align:center;fo
   .hero-btns{flex-direction:column;align-items:stretch;gap:8px;padding:0 8px;}
   .btn-p{padding:14px;font-size:15px;border-radius:16px;}
 
-  .toolbar{padding:12px 12px 0;gap:8px;flex-wrap:nowrap;}
-  .search-box{min-width:0;}
+  .toolbar{padding:12px 12px 0;gap:8px;flex-wrap:wrap;}
+  .search-box{min-width:0;flex:1 1 100%;}
   .search-inp{height:44px;font-size:15px;}
-  .filter-btn{height:44px;padding:0 14px;font-size:13px;}
-  .sort-wrap{height:44px;padding:0 12px;}
+  .filter-btn{height:44px;padding:0 14px;font-size:13px;flex:1;}
+  .sort-wrap{height:44px;padding:0 12px;flex:1;}
 
   .chips-row{padding:10px 12px 0;gap:6px;}
   .chip{padding:7px 14px;font-size:12px;}
@@ -1071,8 +1071,12 @@ function pubCh(){
   const newCh = {name,cat,price:Math.round(price),subs,views30,income,monetized,nostrikes,active,countries,tg,ytLink,avatarUrl:ytAv,desc:desc||t('nodesc'),screens:[...pScr],color:COLS[Math.floor(Math.random()*COLS.length)],ok:true};
   LS.unshift(newCh);
   if(!CATS_BASE.includes(cat)&&!xC.includes(cat))xC.push(cat);
-  renderCatChips();renderCards();
-  saveToFirebase(newCh).then(()=>{alert(t('pubok'));renderForm();});
+  renderCatChips();renderCards();initPrSlider();
+  saveToFirebase(newCh).then(ok=>{
+    if(ok){alert(t('pubok'));}
+    else{alert('Ошибка сохранения в Firebase. Проверь консоль.');}
+    renderForm();
+  });
 }
 
 function renderList(){
@@ -1232,7 +1236,7 @@ const COLL = 'channels';
 // Загружаем каналы из Firebase при старте
 async function loadFromFirebase() {
   try {
-    const snap = await db.collection(COLL).orderBy('createdAt','desc').get();
+    const snap = await db.collection(COLL).get();
     if (!snap.empty) {
       LS = snap.docs.map(d => ({...d.data(), _id: d.id, ok: true}));
     }
