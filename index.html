@@ -1244,6 +1244,8 @@ function togFormCtr(btn,flag,name){
   }
   inp.dataset.sel=JSON.stringify(sel);
 }
+
+function togEditCtr(btn,flag){
   const btns=document.querySelectorAll('#eCtrBtns .ectr-btn');
   const selCount=[...btns].filter(b=>b.classList.contains('sel')).length;
   if(btn.classList.contains('sel')){
