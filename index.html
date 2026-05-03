@@ -266,33 +266,51 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
   box-shadow:0 32px 80px rgba(0,0,0,.6);
 }
 .sh-hd{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border);}
-.sh-av{width:52px;height:52px;border-radius:28%;overflow:hidden;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;}
+.sh-av{width:52px;height:52px;border-radius:50%;overflow:hidden;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;flex-shrink:0;}
 .sh-av img{width:100%;height:100%;object-fit:cover;display:block;}
 .sh-name{font-size:17px;font-weight:800;letter-spacing:-.4px;}
 .sh-cat{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;background:var(--accentbg);display:inline-block;padding:2px 9px;border-radius:var(--r3);}
 .xbtn{width:30px;height:30px;border-radius:50%;background:var(--bg4);border:1px solid var(--border2);color:var(--text2);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
 .xbtn:hover{background:var(--bg5);color:var(--text);}
-.sh-body{padding:22px 24px 28px;}
-.sh-pr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px;}
-.sh-price{font-size:30px;font-weight:800;letter-spacing:-.8px;}
-.sh-cta{padding:11px 24px;border-radius:var(--r3);background:var(--accent);color:#fff;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 4px 14px rgba(0,122,255,.3);transition:all .2s;}
+.sh-body{padding:20px 20px 28px;}
+.sh-pr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;}
+.sh-price{font-size:32px;font-weight:800;letter-spacing:-.8px;}
+.sh-cta{padding:13px 28px;border-radius:var(--r3);background:var(--accent);color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 4px 14px rgba(0,122,255,.3);transition:all .2s;white-space:nowrap;}
 .sh-cta:hover{background:var(--accent2);}
-.sh-badges{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;}
-.sh-stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
-.shst{flex:1;min-width:80px;background:var(--bg3);border-radius:var(--r);padding:12px 13px;text-align:center;}
-.shst-v{font-size:17px;font-weight:800;letter-spacing:-.3px;}
+.sh-badges{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px;}
+.sh-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.shst{background:var(--bg3);border-radius:var(--r);padding:14px 16px;text-align:center;}
+.shst-v{font-size:18px;font-weight:800;letter-spacing:-.3px;}
 .shst-l{font-size:10px;color:var(--text3);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
+.sh-countries{display:flex;gap:8px;flex-wrap:wrap;background:var(--bg3);border-radius:var(--r);padding:14px 16px;margin-bottom:16px;align-items:center;}
+.sh-countries-lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-right:4px;}
+.sh-country-tag{font-size:13px;font-weight:600;color:var(--text);}
 .sh-lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
-.sh-desc{font-size:14px;color:var(--text2);line-height:1.75;background:var(--bg3);border-radius:var(--r);padding:14px 15px;margin-bottom:18px;white-space:pre-wrap;}
-.yt-pill{display:inline-flex;align-items:center;gap:7px;background:var(--accentbg);border:1px solid rgba(0,122,255,.18);border-radius:var(--r3);padding:8px 13px;margin-bottom:18px;text-decoration:none;transition:all .2s;}
+.sh-desc{font-size:14px;color:var(--text2);line-height:1.75;background:var(--bg3);border-radius:var(--r);padding:14px 15px;margin-bottom:16px;white-space:pre-wrap;}
+.yt-pill{display:flex;align-items:center;gap:7px;background:var(--accentbg);border:1px solid rgba(0,122,255,.18);border-radius:var(--r3);padding:10px 15px;margin-bottom:16px;text-decoration:none;transition:all .2s;overflow:hidden;}
 .yt-pill:hover{border-color:var(--accent);}
 .yt-pill span{font-size:12px;color:var(--accent);font-weight:600;word-break:break-all;}
-.gal-main{width:100%;max-height:320px;object-fit:contain;border-radius:var(--r2);cursor:zoom-in;background:var(--bg3);display:block;}
-.gal-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px;}
-.gal-row img{width:64px;height:48px;object-fit:cover;border-radius:9px;cursor:pointer;border:2px solid transparent;opacity:.55;transition:all .2s;}
-.gal-row img.on{border-color:var(--accent);opacity:1;}
-.gal-row img:hover{opacity:1;}
+
+/* Gallery */
+.gal-main{width:100%;max-height:360px;object-fit:contain;border-radius:var(--r);cursor:zoom-in;background:var(--bg3);display:block;}
+.gal-scroll{display:flex;gap:7px;margin-top:9px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.gal-scroll::-webkit-scrollbar{display:none;}
+.gal-scroll img{height:64px;width:auto;min-width:48px;max-width:120px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid transparent;opacity:.55;transition:all .2s;flex-shrink:0;}
+.gal-scroll img.on{border-color:var(--accent);opacity:1;}
+.gal-scroll img:hover{opacity:1;}
 .no-scr{font-size:13px;color:var(--text3);padding:14px;background:var(--bg3);border-radius:var(--r);text-align:center;}
+
+@media(max-width:680px){
+  .backdrop{padding:0;background:rgba(0,0,0,.6);}
+  .backdrop.open{display:flex;align-items:flex-end;}
+  .sheet{border-radius:24px 24px 0 0;max-width:100%;margin:0;max-height:92dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  .sh-hd{padding:16px 16px 14px;}
+  .sh-body{padding:14px 14px 32px;}
+  .sh-price{font-size:28px;}
+  .sh-cta{padding:13px 22px;font-size:14px;}
+  .shst-v{font-size:16px;}
+  .gal-scroll img{height:56px;}
+}
 
 /* ── ADMIN ── */
 .adm-wrap{display:none;position:fixed;inset:0;z-index:999;background:var(--bg);flex-direction:column;}
@@ -796,9 +814,10 @@ footer{padding:22px 32px;border-top:1px solid var(--border);text-align:center;fo
       <button class="xbtn" onclick="closeDetail()">✕</button>
     </div>
     <div class="sh-body">
-      <div class="sh-pr-row"><div id="shPrice" class="sh-price"></div><button class="sh-cta" onclick="goTg()" data-t="buy_cta">Купить канал →</button></div>
       <div id="shBadges" class="sh-badges"></div>
+      <div class="sh-pr-row"><div id="shPrice" class="sh-price"></div><button class="sh-cta" onclick="goTg()" data-t="buy_cta">Купить канал →</button></div>
       <div id="shStats" class="sh-stats"></div>
+      <div id="shCountries" class="sh-countries" style="display:none"></div>
       <div class="sh-lbl" data-t="ldesc">Описание</div>
       <div id="shDesc" class="sh-desc"></div>
       <div id="shYt"></div>
@@ -1344,19 +1363,28 @@ function openDetail(idx){
   document.getElementById('shStats').innerHTML=`
     <div class="shst"><div class="shst-v">${fmt(l.subs)}</div><div class="shst-l">${t('stsubs')}</div></div>
     <div class="shst"><div class="shst-v">${fmt(l.views30)}</div><div class="shst-l">${t('stviews')}</div></div>
-    ${l.income?`<div class="shst"><div class="shst-v">~$${l.income}</div><div class="shst-l">${t('stinc')}</div></div>`:''}
-    ${cos.length?`<div class="shst" style="flex:2"><div class="shst-v" style="font-size:16px;letter-spacing:0">${cos.map(c=>{const m=c.match(/^(\S+)\s*(.*)/);const flag=m?m[1]:c;const name=m?m[2]:'';return flag+'<span style="font-size:12px;margin-left:3px">'+name+'</span>';}).join('<span style="color:var(--text3);margin:0 6px">·</span>')}</div><div class="shst-l">${t('staud')}</div></div>`:''}`;  document.getElementById('shYt').innerHTML=l.ytLink?`<a class="yt-pill" href="${l.ytLink}" target="_blank" rel="noopener"><span>📺</span><span>${l.ytLink}</span></a>`:'';
+    ${l.income?`<div class="shst" style="grid-column:1/-1"><div class="shst-v">~$${l.income}</div><div class="shst-l">${t('stinc')}</div></div>`:''}`;
+  // Countries block
+  const cosEl=document.getElementById('shCountries');
+  if(cosEl){
+    if(cos.length){
+      cosEl.style.display='flex';
+      cosEl.innerHTML=`<span class="sh-countries-lbl">🌍 Аудитория</span>`+cos.map(c=>{const m=c.match(/^(\S+)\s*(.*)/);return `<span class="sh-country-tag">${m?m[1]:c} ${m?m[2]:''}</span>`;}).join('<span style="color:var(--text3);">·</span>');
+    } else {cosEl.style.display='none';}
+  }
+  document.getElementById('shYt').innerHTML=l.ytLink?`<a class="yt-pill" href="${l.ytLink}" target="_blank" rel="noopener"><span>📺</span><span>${l.ytLink}</span></a>`:'';
   const gal=document.getElementById('shGal');
   const dotsEl=document.getElementById('shGalDots');
   if(l.screens?.length){
     const s=l.screens;
     let cur=0;
     function renderGalSlide(){
-      gal.innerHTML=`<div style="position:relative;border-radius:16px;overflow:hidden;margin-bottom:4px;">
-        <img src="${s[cur]}" style="width:100%;border-radius:16px;display:block;cursor:zoom-in;" onclick='openFs(${JSON.stringify(s)},${cur})'/>
+      gal.innerHTML=`<div style="position:relative;border-radius:16px;overflow:hidden;margin-bottom:8px;">
+        <img src="${s[cur]}" style="width:100%;max-height:340px;object-fit:contain;border-radius:16px;display:block;cursor:zoom-in;background:var(--bg3);" onclick='openFs(${JSON.stringify(s)},${cur})'/>
         ${s.length>1?`<button onclick="prevSlide()" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);border:none;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;">‹</button>
         <button onclick="nextSlide()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);border:none;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;">›</button>`:``}
-      </div>`;
+      </div>
+      ${s.length>1?`<div class="gal-scroll">${s.map((src,i)=>`<img src="${src}" class="${i===cur?'on':''}" onclick="goSlide(${i})" />`).join('')}</div>`:''}`;
       dotsEl.innerHTML=s.map((_,i)=>`<div onclick="goSlide(${i})" style="width:${i===cur?'20':'7'}px;height:7px;border-radius:4px;background:${i===cur?'var(--accent)':'var(--bg5)'};cursor:pointer;transition:all .25s;"></div>`).join('');
     }
     window.prevSlide=()=>{cur=(cur-1+s.length)%s.length;renderGalSlide();};
