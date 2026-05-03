@@ -692,7 +692,7 @@ footer{padding:22px 32px;border-top:1px solid var(--border);text-align:center;fo
   <div class="grid" id="cardsGrid"></div>
 </div>
 
-<footer><span class="fsec2">© 2025 NNSTORE</span></footer>
+
 </div>
 
 <!-- TG REVIEWS PAGE -->
@@ -972,7 +972,8 @@ function renderCatChips(){
 function setCatF(c){activeCatF=c;renderCatChips();renderCards();}
 
 // ── ADMIN ─────────────────────────────────────────────────────────
-const PWD='nnstore2025';
+let ADMIN_PWD='';
+fetch('/api/config').then(r=>r.json()).then(d=>{ADMIN_PWD=d.pwd||'';}).catch(()=>{ADMIN_PWD='';});
 const ADMIN_EMAIL='admin@nnstore.com'; // можно сменить
 let adminIn=false,aTab='add',pScr=[],ytAv='',ytNm='',ytTmr=null,cpSel=[],cpTgt=null;
 
@@ -993,7 +994,7 @@ function doLogin(){
   const err=document.getElementById('aerr');
   if(!email){err.textContent='Введите email';return;}
   if(email!==ADMIN_EMAIL){err.textContent='Неверный email';return;}
-  if(pwd!==PWD){err.textContent='Неверный пароль';return;}
+  if(pwd!==ADMIN_PWD||ADMIN_PWD===''){err.textContent='Неверный пароль';return;}
   adminIn=true;
   document.getElementById('admLogin').style.display='none';
   const dash = document.getElementById('admDash');
