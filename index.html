@@ -1056,8 +1056,8 @@ function renderForm(){
       <div class="fg"><label>${t('finc')}</label><input type="number" id="fInc" placeholder="20"/></div>
     </div>
     <div class="fsec"><div class="fsec-t">04 — Аудитория</div>
-      <div class="fg"><label>${t('fco')}</label>
-        <div class="cdisp" onclick="openCp(document.getElementById('fCoData'))"><div id="cpDisp"><span class="cph">${t('fcoph')}</span></div></div>
+      <div class="fg"><label>${t('fco')} <span style="font-size:11px;color:var(--text3);font-weight:400">(до 3)</span></label>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">${CTRS.map(c=>`<button type="button" onclick="togFormCtr(this,'${c.f}','${cn(c)}')" data-flag="${c.f}" data-name="${cn(c)}" class="fctr-btn" style="padding:6px 10px;border-radius:10px;font-size:13px;border:1.5px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;transition:all .15s;font-family:inherit;">${c.f} ${cn(c)}</button>`).join('')}</div>
         <input type="hidden" id="fCoData" data-sel="[]"/>
       </div>
       <div class="fg"><label>${t('ftg')}</label><input type="text" id="fTg" value="@dmytroseller"/></div>
@@ -1229,7 +1229,21 @@ function editL(idx){
   setTimeout(renderEditScreens,0);
 }
 
-function togEditCtr(btn,flag){
+function togFormCtr(btn,flag,name){
+  const inp=document.getElementById('fCoData');
+  let sel=JSON.parse(inp.dataset.sel||'[]');
+  const val=flag+name;
+  const idx=sel.indexOf(val);
+  if(idx>-1){
+    sel.splice(idx,1);
+    btn.style.borderColor='var(--border2)';btn.style.background='var(--bg3)';btn.style.color='var(--text2)';
+  } else {
+    if(sel.length>=3){alert('Максимум 3 страны');return;}
+    sel.push(val);
+    btn.style.borderColor='var(--accent)';btn.style.background='var(--accentbg)';btn.style.color='var(--accent)';
+  }
+  inp.dataset.sel=JSON.stringify(sel);
+}
   const btns=document.querySelectorAll('#eCtrBtns .ectr-btn');
   const selCount=[...btns].filter(b=>b.classList.contains('sel')).length;
   if(btn.classList.contains('sel')){
