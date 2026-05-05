@@ -1285,7 +1285,13 @@ async function saveEdit(){
   renderList();renderCards();renderCatChips();
   if(l._id){
     try{
-      const {screens,_id,...clean}=l;
+      // Сжимаем скрины
+      if(l.screens && l.screens.length){
+        l.screens = await Promise.all(
+          l.screens.slice(0,5).map(s => s.startsWith('data:') ? compressImg(s) : Promise.resolve(s))
+        );
+      }
+      const {_id,...clean}=l;
       await db.collection('channels').doc(_id).update({...clean});
       alert('Сохранено ✓');
     }catch(e){alert('Ошибка Firebase: '+e.message);}
@@ -1489,15 +1495,38 @@ async function loadFromFirebase() {
 }
 
 // Сохранить канал в Firebase
+async function compressImg(base64, maxW=800, quality=0.7) {
+  return new Promise(res=>{
+    const img=new Image();
+    img.onload=()=>{
+      const canvas=document.createElement('canvas');
+      let w=img.width,h=img.height;
+      if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      res(canvas.toDataURL('image/jpeg',quality));
+    };
+    img.src=base64;
+  });
+}
+
 async function saveToFirebase(ch) {
   try {
-    // Убираем тяжёлые base64 скрины — Firebase ограничен 1MB на документ
-    const {screens, _id, ...chClean} = ch;
+    // Сжимаем скрины перед отправкой в Firebase
+    let compressedScreens = [];
+    if(ch.screens && ch.screens.length) {
+      compressedScreens = await Promise.all(
+        ch.screens.slice(0,5).map(s => s.startsWith('data:') ? compressImg(s) : Promise.resolve(s))
+      );
+    }
+    const {_id, ...chClean} = ch;
     const doc = await db.collection(COLL).add({
       ...chClean,
+      screens: compressedScreens,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     ch._id = doc.id;
+    ch.screens = compressedScreens;
     console.log('Saved to Firebase:', doc.id);
     return true;
   } catch(e) {
