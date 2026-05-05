@@ -1285,11 +1285,15 @@ async function saveEdit(){
   renderList();renderCards();renderCatChips();
   if(l._id){
     try{
-      // Сжимаем скрины
+      // Загружаем новые скрины на ImgBB
       if(l.screens && l.screens.length){
-        l.screens = await Promise.all(
-          l.screens.slice(0,5).map(s => s.startsWith('data:') ? compressImg(s) : Promise.resolve(s))
+        const results = await Promise.all(
+          l.screens.slice(0,10).map(async s => {
+            if(s.startsWith('data:')) return await uploadToImgBB(s);
+            return s;
+          })
         );
+        l.screens = results.filter(Boolean);
       }
       const {_id,...clean}=l;
       await db.collection('channels').doc(_id).update({...clean});
@@ -1495,38 +1499,43 @@ async function loadFromFirebase() {
 }
 
 // Сохранить канал в Firebase
-async function compressImg(base64, maxW=800, quality=0.7) {
-  return new Promise(res=>{
-    const img=new Image();
-    img.onload=()=>{
-      const canvas=document.createElement('canvas');
-      let w=img.width,h=img.height;
-      if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
-      canvas.width=w;canvas.height=h;
-      canvas.getContext('2d').drawImage(img,0,0,w,h);
-      res(canvas.toDataURL('image/jpeg',quality));
-    };
-    img.src=base64;
-  });
+const IMGBB_KEY='8356000e12e3111f5ee2bd095d328789';
+
+async function uploadToImgBB(base64) {
+  try {
+    const data = new FormData();
+    data.append('key', IMGBB_KEY);
+    data.append('image', base64.split(',')[1]);
+    const res = await fetch('https://api.imgbb.com/1/upload', {method:'POST', body:data});
+    const json = await res.json();
+    if(json.success) return json.data.url;
+    return null;
+  } catch(e) {
+    console.error('ImgBB error:', e);
+    return null;
+  }
 }
 
 async function saveToFirebase(ch) {
   try {
-    // Сжимаем скрины перед отправкой в Firebase
-    let compressedScreens = [];
+    // Загружаем скрины на ImgBB, в Firebase пишем только ссылки
+    let uploadedScreens = [];
     if(ch.screens && ch.screens.length) {
-      compressedScreens = await Promise.all(
-        ch.screens.slice(0,5).map(s => s.startsWith('data:') ? compressImg(s) : Promise.resolve(s))
-      );
+      const uploading = ch.screens.slice(0,10).map(async s => {
+        if(s.startsWith('data:')) return await uploadToImgBB(s);
+        return s; // уже ссылка
+      });
+      const results = await Promise.all(uploading);
+      uploadedScreens = results.filter(Boolean);
     }
     const {_id, ...chClean} = ch;
     const doc = await db.collection(COLL).add({
       ...chClean,
-      screens: compressedScreens,
+      screens: uploadedScreens,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     ch._id = doc.id;
-    ch.screens = compressedScreens;
+    ch.screens = uploadedScreens;
     console.log('Saved to Firebase:', doc.id);
     return true;
   } catch(e) {
